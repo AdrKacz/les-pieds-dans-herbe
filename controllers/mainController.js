@@ -7,7 +7,11 @@ exports.details_get = function(req, res, next) {
 };
 
 exports.details_post = function(req, res, next) {
+<<<<<<< HEAD
   res.render('details', {title: 'DETAILS PAGE POST - NOT IMPLEMENTED', errors: null});
+=======
+  res.render('details', {title: 'DETAILS PAGE POST - NOT IMPLEMENTED', errors: n});
+>>>>>>> 8d6df6c99f4cb64fce52d097fd92421969f5487f
 };
 
 exports.book_get = function(req, res, next) {
