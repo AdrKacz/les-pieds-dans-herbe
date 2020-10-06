@@ -1,8 +1,33 @@
-body {
+/* body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+} */
+
+/*  GENERAL */
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+
+
+}
+
+p {
+  font-size: 16px;
+}
+
+div.background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+
+  background-image: url('/images/background-filip-zrnzevic-QsWG0kjPQRY-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
 }
