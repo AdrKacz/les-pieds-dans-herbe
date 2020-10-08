@@ -9,21 +9,35 @@ a {
 
 /*  GENERAL */
 
+body {
+  margin: 40px 20px;
+}
+
 h1 {
   font-weight: lighter;
   color: #707070;
   font-family: sans-serif;
   font-size: 30px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.15)
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
+  font-weight: lighter;
   font-family: sans-serif;
 }
 
 p {
+  font-weight: lighter;
   font-family: sans-serif;
   font-size: 16px;
+
+  color: #707070;
+}
+
+a {
+  font-weight: lighter;
+  color: #707070;
+  text-decoration: none;
 }
 
 div.background {
@@ -40,8 +54,41 @@ div.background {
   background-position: center;
 }
 
+div.to-details {
+  width: min(100%, 560px);
+
+  display: flex;
+  flex-direction: column;
+
+  margin: 8vh 0;
+}
+
+div.to-details p {
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+
+  text-align: right;
+}
+
+div.to-details p:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  width: 100%;
+  height: 60px;
+  margin: 0;
+
+  background-color: #FFFFFF;
+  border-radius: 55px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.16);
+
+  font-size: 25px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+}
+
 ul.containers {
-  width: 90vw;
+  width: 100%;
   padding: 0;
   margin: 0 auto;
 
@@ -72,4 +119,17 @@ ul.containers li p {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 
   text-align: center;
+}
+
+@media (min-width: 1300px) {
+  div.to-details {
+    margin: 30vh 0;
+  }
+  ul.containers {
+    position: absolute;
+    bottom: 5vh;
+  }
+  ul.containers li {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
