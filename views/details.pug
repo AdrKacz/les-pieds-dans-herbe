@@ -9,38 +9,45 @@ block content
       img(src='/images/house-jakari-ward-kJcSb3aLOLo-unsplash.jpg')
     div.photo
       img(src='/images/house-phil-hearing-U7PitHRnTNU-unsplash.jpg')
-      div.photo
-        img(src='/images/house-sidekix-media-r_y2VBvEOIE-unsplash.jpg')
+    div.photo
+      img(src='/images/house-sidekix-media-r_y2VBvEOIE-unsplash.jpg')
   div.round-box.dates
     p 20/08/2020 - 25/08/2020
-    
-  div.pack
-    h2 Pack Famille
-    ul
-      li
-        p 2 vélos
-      li
-        p Slackline
-      li
-        p Jeu de boules
-  div.pack
-    h2 Pack Voyage
-    ul
-      li
-        p 4 vélos
-      li
-        p Slackline
-      li
-        p Bois chauffage
-  div.pack
-    h2 Pack Intégral
-    ul
-      li
-        p Pack Famille
-      li
-        p Pack Voyage
-      li
-        p Jusqu'à 16 vélos
+  
+  div.packs
+    div.pack
+      h2 Pack Famille
+      ul
+        li
+          p 2 vélos
+        li
+          p Slackline
+        li
+          p Jeu de boules
+        li
+          p= "  30 €" 
+    div.pack.selected
+      h2 Pack Voyage
+      ul
+        li
+          p 4 vélos
+        li
+          p Slackline
+        li
+          p Bois chauffage
+        li
+          p= "  45 €"
+    div.pack
+      h2 Pack Intégral
+      ul
+        li
+          p Pack Famille
+        li
+          p Pack Voyage
+        li
+          p Jusqu'à 16 vélos
+        li
+          p= "  80 €"
   
   div.round-box.price
     p 125 €

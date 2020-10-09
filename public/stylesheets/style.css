@@ -7,7 +7,9 @@ a {
   color: #00B7FF;
 } */
 
+/*  ---------- */
 /*  GENERAL */
+/*  ---------- */
 
 body {
   margin: 40px 20px;
@@ -24,6 +26,13 @@ h1 {
 h2 {
   font-weight: lighter;
   font-family: sans-serif;
+
+  font-size: 16px;
+
+  padding: 0 5vw;
+  margin: 2vh 0 1vh;
+
+  color: #707070;
 }
 
 p {
@@ -53,6 +62,10 @@ div.background {
   background-size: cover;
   background-position: center;
 }
+
+/*  ---------- */
+/*  HOME */
+/*  ---------- */
 
 div.to-details {
   width: min(100%, 560px);
@@ -132,4 +145,140 @@ ul.containers li p {
   ul.containers li {
     background-color: rgba(0, 0, 0, 0);
   }
+}
+
+/*  ---------- */
+/*  DETAILS */
+/*  ---------- */
+
+div.photos {
+  height: 90vw;
+  width: 100vw;
+
+  position: relative;
+  right: 5vw;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+}
+
+div.photo {
+  width: 90vw;
+  height: 90vw;
+
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+}
+
+div.photo:first-child {
+  margin: 0 0 0 5vw;
+}
+
+div.photo:last-child {
+  width: 95vw;
+  padding: 0 5vw 0 0;
+}
+
+div.photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+div.packs {
+  display: flex;
+  flex-wrap: wrap;
+}
+div.pack {
+  width: 100%;
+  height: 200px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #707070;
+  border-radius: 11px;
+
+  margin: 3vh 0;
+}
+
+div.pack:first-child{
+  margin: 5vh 0 3vh 0;
+}
+
+div.pack:last-child{
+  margin: 3vh 0 5vh 0;
+}
+
+div.pack ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 0;
+  margin: 0;
+}
+
+div.pack li {
+  list-style-type: none;
+  line-height: 8px;
+}
+
+div.pack p {
+  color: rgba(112, 112, 112, 0.8)
+}
+
+div.pack p:last-child{
+  color: rgba(112, 112, 112, 1);
+}
+
+div.pack.selected {
+  background-color: #707070;
+}
+
+div.pack.selected h2{
+  color: #FFFFFF;
+}
+
+div.pack.selected p{
+  color: rgba(255, 255, 255, 0.8);
+}
+
+div.pack.selected p:last-child{
+  color: rgba(255, 255, 255, 1);
+}
+
+div.round-box {
+  width: 100%;
+  height: 40px;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: #707070;
+  border-radius: 24px;
+
+  margin: 5vh 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.price p, div.book p {
+  font-size: 20px;
+}
+
+div.book {
+  background-color: #707070;
+}
+
+div.book a {
+  color: #FFFFFF;
 }
