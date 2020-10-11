@@ -7,14 +7,14 @@ block content
   div.round-box.dates
     p 20/08/2020 - 25/08/2020
   
-  ul
-    li.pack
+  ul.pack
+    li
       h2 Pack Famille
       p 30 €
-    li.pack
+    li.selected
       h2 Pack Voyage
       p 45 €
-    li.pack
+    li
       h2 Pack Intégral
       p 80 €
       
@@ -28,13 +28,13 @@ block content
     div
       input(type='text', placeholder='Adresse de facturation', name='facturation', required='true')
     div
-      input(type='number', placeholder='Code postal', name='code-postal', required='true')
+      input(class='small-input', type='number', placeholder='Code postal', name='code-postal', required='true')
     div
-      input(type='text', placeholder='Ville', name='ville', required='true')
+      input(class='small-input', type='text', placeholder='Ville', name='ville', required='true')
     div
       input(type='email', placeholder='Adresse email', name='email', required='true')
 
-    div.round-box.price
+    div.round-box.confirm.price
       p 125 €
-    div.round-box.book
+    div.round-box.confirm
       input(type='submit', value='Confirmer')
