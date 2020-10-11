@@ -68,7 +68,7 @@ div.background {
 /*  ---------- */
 
 div.to-details {
-  width: min(100%, 560px);
+  width: min(90vw, 560px);
 
   display: flex;
   flex-direction: column;
@@ -88,7 +88,6 @@ div.to-details p:first-child {
   justify-content: center;
   text-align: center;
 
-  width: 100%;
   height: 60px;
   margin: 0;
 
@@ -101,7 +100,7 @@ div.to-details p:first-child {
 }
 
 ul.containers {
-  width: 100%;
+  width: 90vw;
   padding: 0;
   margin: 0 auto;
 
@@ -212,7 +211,7 @@ div.packs {
   flex-wrap: wrap;
 }
 div.pack {
-  width: 100%;
+  width: 90vw;
   height: 200px;
 
   border-style: solid;
@@ -274,7 +273,7 @@ div.pack.selected p:last-child{
 }
 
 div.round-box {
-  width: 100%;
+  width: 90vw;
   height: 40px;
 
   border-style: solid;
@@ -306,7 +305,7 @@ div.book a {
 /*  ---------- */
 
 ul.pack {
-  width: 100%;
+  width: 90vw;
   height: 60px;
 
   display: flex;
@@ -319,8 +318,8 @@ ul.pack {
 }
 
 ul.pack li {
-  width: 30%;
-  height: 100%;
+  width: 30vw;
+  height: 60px;
   /* padding: 5px 0; */
 
   list-style-type: none;
@@ -367,7 +366,7 @@ form {
   display: flex;
   flex-wrap: wrap;
 
-  width: 100%;
+  width: 90vw;
   justify-content: space-between;
   align-items: center;
 }
