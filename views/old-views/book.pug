@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  div.background
+
+  h1 Réservation
+  div.round-box.dates
+    p 20/08/2020 - 25/08/2020
+  
+  ul.pack
+    li
+      h2 Pack Famille
+      p 30 €
+    li.selected
+      h2 Pack Voyage
+      p 45 €
+    li
+      h2 Pack Intégral
+      p 80 €
+      
+  form
+    div
+      input(type='text', placeholder='Prénom', name='prenom', required='true')
+    div
+      input(type='text', placeholder='Nom', name='nom', required='true')
+    div
+      input(type='date', placeholder='Date de naissance', name='naissance', required='true')
+    div
+      input(type='text', placeholder='Adresse de facturation', name='facturation', required='true')
+    div
+      input(class='small-input', type='number', placeholder='Code postal', name='code-postal', required='true')
+    div
+      input(class='small-input', type='text', placeholder='Ville', name='ville', required='true')
+    div
+      input(type='email', placeholder='Adresse email', name='email', required='true')
+
+    div.round-box.confirm.price
+      p 125 €
+    div.round-box.confirm
+      input(type='submit', value='Confirmer')

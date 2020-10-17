@@ -1,25 +1,28 @@
 extends layout
 
 block content
-  div.background
-  
-  h1 Les Pieds Dans L'Herbe
-  
-  div.to-details
-    p
-      a(href="/details") Réserver le gîte
-    p à partir de 65 € la nuit
-  
-  ul.containers
-    li
-      p Terrain de 170m2
-    li
-      p Quatre lits doubles <br> Deux lits simples
-    li
-      p Télévision <br> Satelitte
-    li
-      p Internet illimité
-    li
-      p Cuisiné équipée
-    li
-      p Quatre salle d'eau <br> Deux toilettes
+  div.container
+    h1.display-4 Les Pieds Dans L'Herbe
+    
+    div.row
+      div.col.col-lg-4.mb-3
+        p.lead
+          a(href="/details") Réserver le gîte
+    div.row
+      div.col.offset-6.col-lg-3.offset-lg-1.mb-5
+        p à partir de 65 € la nuit
+      
+    div.row
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Terrain de 170m2
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Quatre lits doubles Deux lits simples
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Télévision Satelitte
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Internet illimité
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Cuisiné équipée
+      div.col-6.col-lg-2.mb-3.pr-3
+        p Quatre salle d'eau Deux toilettes
+    
