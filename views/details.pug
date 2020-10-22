@@ -2,7 +2,52 @@ extends layout
 
 
 block content
-  div.photos
+  div.carousel.slide.h-100.mb-5#carousel-details(data-ride='carousel')
+    ol.carousel-indicators
+      li.active(data-target='#carousel-details', data-slide-to='0')
+      li(data-target='#carousel-details', data-slide-to='1')
+      li(data-target='#carousel-details', data-slide-to='2')
+      li(data-target='#carousel-details', data-slide-to='3')
+    div.carousel-inner
+      div.carousel-item.active(data-interval='5000')
+        img.d-block.img-fluid(src='/images/house-dane-deaner-qRfMB-IOQjE-unsplash.jpg')
+      div.carousel-item(data-interval='5000')
+        img.d-block.img-fluid(src='/images/house-jakari-ward-kJcSb3aLOLo-unsplash.jpg')
+      div.carousel-item(data-interval='5000')
+        img.d-block.img-fluid(src='/images/house-phil-hearing-U7PitHRnTNU-unsplash.jpg')
+      div.carousel-item(data-interval='5000')
+        img.d-block.img-fluid(src='/images/house-sidekix-media-r_y2VBvEOIE-unsplash.jpg')
+    a.carousel-control-prev(href='#carousel-details', role='buttons', data-slide='prev')
+      span.carousel-control-prev-icon(aria-hidden='true')
+      span.sr-only Previous
+    a.carousel-control-next(href='#carousel-details', role='buttons', data-slide='next')
+        span.carousel-control-next-icon(aria-hidden='true')
+        span.sr-only Next    
+  
+  div.container
+    div.row
+      div.col.col-lg-4.offset-lg-4.mb-5.text-center
+        p 20/08/2020 - 25/08/2020
+    div.row
+      div.col-12.col-lg-4.mb-3
+        div.card
+          div.card-body
+            h5.card-title.mb-3 Pack Famille
+            p.card-text.text-center 2 vélos<br>Slackline<br>Jeu de boules
+            p.card-text.text-center= ' 30 €'
+      div.col-12.col-lg-4.mb-3
+        div.card
+          div.card-body
+            h5.card-title.mb-3 Pack Voyage
+            p.card-text.text-center 4 vélos<br>Slackline<br>Bois de chauffage
+            p.card-text.text-center= ' 45 €'
+      div.col-12.col-lg-4.mb-3
+        div.card
+          div.card-body
+            h5.card-title.mb-3 Pack Intégral
+            p.card-text.text-center Pack Famille<br>Pack Voyage<br>Jusqu'à 16 vélos
+            p.card-text.text-center= ' 80 €'
+  //-div.photos
     div.photo
       img(src='/images/house-dane-deaner-qRfMB-IOQjE-unsplash.jpg')
     div.photo
@@ -11,10 +56,10 @@ block content
       img(src='/images/house-phil-hearing-U7PitHRnTNU-unsplash.jpg')
     div.photo
       img(src='/images/house-sidekix-media-r_y2VBvEOIE-unsplash.jpg')
-  div.round-box.dates
+  //-div.round-box.dates
     p 20/08/2020 - 25/08/2020
   
-  div.packs
+  //-div.packs
     div.pack
       h2 Pack Famille
       ul
@@ -49,8 +94,8 @@ block content
         li
           p= "  80 €"
   
-  div.round-box.price
+  //-div.round-box.price
     p 125 €
-  div.round-box.book
+  //-div.round-box.book
     p
       a(href="/book") Réserver
