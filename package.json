@@ -8,9 +8,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=les-pieds-dans-herbe:* npm run devstart"
+    "compile": "sass sass:public/stylesheets",
+    "serverstart": "npm run compile ; DEBUG=les-pieds-dans-herbe:* npm run devstart"
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -21,6 +23,7 @@
     "pug": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sass": "^1.27.0"
   }
 }
