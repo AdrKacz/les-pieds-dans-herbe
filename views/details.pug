@@ -27,7 +27,7 @@ block content
   div.container
     div.row
       div.col.col-lg-4.offset-lg-4.mb-5.text-center
-        input.btn.btn-outline-dark.btn-block.rounded-pill(type='text', placeholder='20/08/2020 - 25/08/2020')
+        input.btn.btn-outline-primary.btn-block.rounded-pill(type='text', placeholder='20/08/2020 - 25/08/2020')
     div.row
       div.col-12.col-lg-4.mb-3
         label.w-100
@@ -39,7 +39,7 @@ block content
               p.card-text.text-center= ' 30 €'
       div.col-12.col-lg-4.mb-3
         label.w-100
-          input.d-none.card-input-element(type='checkbox', name='pack')
+          input.d-none.card-input-element(type='checkbox', name='pack', checked)
           div.card.card-input
             div.card-body
               h5.card-heading.mb-3 Pack Voyage
@@ -55,65 +55,12 @@ block content
               p.card-text.text-center= ' 80 €'
     div.row.mb-5
       div.col-12.col-lg-4.offset-lg-2.mb-3.text-center
-        p.btn.btn-outline-dark.btn-block.rounded-pill.user-select-none 125 €
+        p.btn.btn-outline-primary.btn-block.rounded-pill.user-select-none 125 €
       div.col-12.col-lg-4.mb-3.text-center
-        button.btn.btn-dark.btn-block.rounded-pill(type='submit') Réserver
+        button.btn.btn-primary.btn-block.rounded-pill(type='submit') Réserver
   
   
   
 block scripts
-  script(src="/javascripts/details-form.js", defer)
+  script(src="/javascripts/pack-form.js", defer)
   
-  
-  //-div.photos
-    div.photo
-      img(src='/images/house-dane-deaner-qRfMB-IOQjE-unsplash.jpg')
-    div.photo
-      img(src='/images/house-jakari-ward-kJcSb3aLOLo-unsplash.jpg')
-    div.photo
-      img(src='/images/house-phil-hearing-U7PitHRnTNU-unsplash.jpg')
-    div.photo
-      img(src='/images/house-sidekix-media-r_y2VBvEOIE-unsplash.jpg')
-  //-div.round-box.dates
-    p 20/08/2020 - 25/08/2020
-  
-  //-div.packs
-    div.pack
-      h2 Pack Famille
-      ul
-        li
-          p 2 vélos
-        li
-          p Slackline
-        li
-          p Jeu de boules
-        li
-          p= "  30 €" 
-    div.pack.selected
-      h2 Pack Voyage
-      ul
-        li
-          p 4 vélos
-        li
-          p Slackline
-        li
-          p Bois chauffage
-        li
-          p= "  45 €"
-    div.pack
-      h2 Pack Intégral
-      ul
-        li
-          p Pack Famille
-        li
-          p Pack Voyage
-        li
-          p Jusqu'à 16 vélos
-        li
-          p= "  80 €"
-  
-  //-div.round-box.price
-    p 125 €
-  //-div.round-box.book
-    p
-      a(href="/book") Réserver
