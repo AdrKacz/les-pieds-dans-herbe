@@ -21,11 +21,11 @@ p.btn {
 }
 
 .card-input {
-  color: theme-color('dark');
-  border-color: theme-color('dark');
+  color: theme-color('primary');
+  border-color: theme-color('primary');
 }
 
 .card-input-element:checked + .card-input {
   color: theme-color('light');
-  background-color: theme-color('dark');
+  background-color: theme-color('primary');
 }

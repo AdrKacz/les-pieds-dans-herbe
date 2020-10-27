@@ -27,7 +27,7 @@ block content
   div.container
     div.row
       div.col.col-lg-4.offset-lg-4.mb-5.text-center
-        input.btn.btn-outline-primary.btn-block.rounded-pill(type='text', placeholder='20/08/2020 - 25/08/2020')
+        input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='text', placeholder='20/08/2020 - 25/08/2020')
     div.row
       div.col-12.col-lg-4.mb-3
         label.w-100
@@ -63,4 +63,5 @@ block content
   
 block scripts
   script(src="/javascripts/pack-form.js", defer)
+  script(src="/javascripts/calendar.js", defer)
   

@@ -9917,13 +9917,13 @@ p.btn {
 }
 
 .card-input {
-  color: #343a40;
-  border-color: #343a40;
+  color: #007bff;
+  border-color: #007bff;
 }
 
 .card-input-element:checked + .card-input {
   color: #f8f9fa;
-  background-color: #343a40;
+  background-color: #007bff;
 }
 
 /*# sourceMappingURL=style.css.map */
