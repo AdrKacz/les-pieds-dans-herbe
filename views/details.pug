@@ -2,6 +2,24 @@ extends layout
 
 
 block content
+  div.modal.text-center#calendar
+    div.modal-dialog
+      div.modal-content
+        div.modal-header
+          h5.modal-title Calendrier
+          button.close(type='button', data-dismiss='modal', aria-lable='Close')
+            span(aria-hidden='true') &times;
+        div.modal-body
+          div.container-fluid
+            div.row
+              div.col Previous
+              div.col Month
+              div.col Next
+        div.modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
+          button.btn.btn-primary(type='button') Sauvegarder
+    
+  
   div.carousel.slide.h-100.mb-5#carousel-details(data-ride='carousel')
     ol.carousel-indicators
       li.active(data-target='#carousel-details', data-slide-to='0')
@@ -27,7 +45,8 @@ block content
   div.container
     div.row
       div.col.col-lg-4.offset-lg-4.mb-5.text-center
-        input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='text', placeholder='20/08/2020 - 25/08/2020')
+        button.btn.btn-primary(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
+        input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='hidden', value='')
     div.row
       div.col-12.col-lg-4.mb-3
         label.w-100
