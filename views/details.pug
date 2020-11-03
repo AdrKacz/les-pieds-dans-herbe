@@ -11,10 +11,21 @@ block content
             span(aria-hidden='true') &times;
         div.modal-body
           div.container-fluid
-            div.row
-              div.col Previous
-              div.col Month
-              div.col Next
+            div.row.mb-3
+              div.col.text-left
+                button.btn.btn-secondary#previous(type='button') &lt;
+              div.col.btn#month Month
+              div.col.text-right
+                button.btn.btn-secondary#next(type='button') &gt;
+            div.row.mb-3
+              div.col L
+              div.col M
+              div.col M
+              div.col J
+              div.col V
+              div.col S
+              div.col D    
+            div#calendar-dates 
         div.modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
           button.btn.btn-primary(type='button') Sauvegarder

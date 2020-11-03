@@ -51,23 +51,108 @@ const MONTHS = [
   },
 ]
 
+let CURRENT_MONTH = 10
+let CURRENT_YEAR = 2020
 // const calendarInput = document.querySelector('#calendar-input');
 const calendarRoot = document.querySelector('#calendar');
+const monthBtn = document.querySelector('#month');
+const previousBtn = document.querySelector('#previous');
+const nextBtn = document.querySelector('#next');
+const calendar = document.querySelector('#calendar-dates');
 
-calendarRoot.onload = updateCalendar(MONTHS[10]);
+calendarRoot.onload = updateCalendar();
 
 const startDateInput = '';
 const endDateInput = '';
 
+previousBtn.addEventListener('click', _ => {
+  CURRENT_MONTH -= 1;
+  if (CURRENT_MONTH < 0) {
+    CURRENT_MONTH = 11;
+    CURRENT_YEAR -= 1;
+  };
 
-// calendarInput.addEventListener('click', () => {
-//   // Design a static calendar in the page with modal bootstrap class
-//   calendarRoot.modal('toggle');
-// });
+  updateCalendar();
+});
+
+nextBtn.addEventListener('click', _ => {
+  CURRENT_MONTH += 1;
+  if (CURRENT_MONTH > 11) {
+    CURRENT_MONTH = 0;
+    CURRENT_YEAR += 1;
+  };
+
+  updateCalendar();
+});
 
 
-function updateCalendar(month) {
-  // Calendar Root
-  console.log(`Update Calendar [${month.long}]`);
+function updateCalendar() {
+  // clear previous month displayed
 
-}
+  while (calendar.firstChild) {
+    calendar.removeChild(calendar.firstChild);
+  };
+
+  // create new one
+
+  month = CURRENT_MONTH;
+  year = CURRENT_YEAR;
+
+  objMonth = MONTHS[CURRENT_MONTH];
+
+  monthBtn.textContent = `${objMonth.long}, ${year}`;
+
+  let currentDate = new Date(year, month);
+  const firstDay = (currentDate.getDay() + 6) % 7;
+
+  while (currentDate.getMonth() === month) {
+    const day = (currentDate.getDay() + 6) % 7;
+    const row = document.createElement('div');
+    row.setAttribute('class', 'row mb');
+    for (let i = 0; i < 7; i++) {
+      if (i >= day && currentDate.getMonth() === month) {
+        const dayItem = document.createElement('div');
+        dayItem.setAttribute('class', 'col');
+        dayItem.textContent = currentDate.getDate();
+        row.appendChild(dayItem);
+        currentDate.setDate(currentDate.getDate() + 1);
+      } else {
+        const emptyItem = document.createElement('div');
+        emptyItem.setAttribute('class', 'col');
+        emptyItem.textContent = '';
+        row.appendChild(emptyItem);
+      };
+    };
+    calendar.appendChild(row)
+  };
+
+  // while (currentDate.getMonth() === month) {
+  //   const day = (currentDate.getDay() + 6) % 7;
+  //   const row = document.createElement('div');
+  //   row.setAttribute('class', 'row mb-3');
+  //   for (let i = 0; i < 7; i++) {
+  //     if (i >= day && currentDate.getMonth() === month) {
+  //       const dayItem = document.createElement('div');
+  //       dayItem.setAttribute('class', 'col-1');
+  //
+  //       const dayBtn = document.createElement('button');
+  //       dayBtn.setAttribute('class', 'btn btn-secondary');
+  //       dayBtn.textContent = currentDate.getDate();
+  //       dayItem.appendChild(dayBtn);
+  //
+  //       row.appendChild(dayItem);
+  //       currentDate.setDate(currentDate.getDate() + 1);
+  //     } else {
+  //       const emptyItem = document.createElement('div');
+  //       emptyItem.setAttribute('class', 'col-1');
+  //       emptyItem.textContent = '';
+  //       row.appendChild(emptyItem);
+  //     };
+  //   };
+  //   calendar.appendChild(row)
+  // };
+
+  console.log('End Date:' + currentDate);
+
+  console.log(`Update Calendar [${objMonth.long}] ${firstDay}`);
+};
