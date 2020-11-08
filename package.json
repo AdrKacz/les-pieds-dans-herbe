@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "compile": "sass sass:public/stylesheets",
+    "compile": "sass scss:public/stylesheets",
     "serverstart": "npm run compile ; DEBUG=les-pieds-dans-herbe:* npm run devstart"
   },
   "dependencies": {
@@ -20,7 +20,8 @@
     "helmet": "^4.1.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "rfs": "^9.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",

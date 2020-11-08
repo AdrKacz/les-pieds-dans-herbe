@@ -1,5 +1,7 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+@import "../node_modules/rfs/scss";
+
 #carousel-details img {
   width: 100%;
   height: 100%;
@@ -28,4 +30,8 @@ p.btn {
 .card-input-element:checked + .card-input {
   color: theme-color('light');
   background-color: theme-color('primary');
+}
+
+#calendar .col {
+  @include rfs(12px);
 }

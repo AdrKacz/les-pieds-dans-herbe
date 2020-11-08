@@ -1,5 +1,4 @@
 // MAIN const
-
 const MONTHS = [
   {
     long:'Janvier',
@@ -112,45 +111,19 @@ function updateCalendar() {
     for (let i = 0; i < 7; i++) {
       if (i >= day && currentDate.getMonth() === month) {
         const dayItem = document.createElement('div');
-        dayItem.setAttribute('class', 'col');
+        dayItem.setAttribute('class', 'col px-1');
         dayItem.textContent = currentDate.getDate();
         row.appendChild(dayItem);
         currentDate.setDate(currentDate.getDate() + 1);
       } else {
         const emptyItem = document.createElement('div');
-        emptyItem.setAttribute('class', 'col');
+        emptyItem.setAttribute('class', 'col px-1');
         emptyItem.textContent = '';
         row.appendChild(emptyItem);
       };
     };
     calendar.appendChild(row)
   };
-
-  // while (currentDate.getMonth() === month) {
-  //   const day = (currentDate.getDay() + 6) % 7;
-  //   const row = document.createElement('div');
-  //   row.setAttribute('class', 'row mb-3');
-  //   for (let i = 0; i < 7; i++) {
-  //     if (i >= day && currentDate.getMonth() === month) {
-  //       const dayItem = document.createElement('div');
-  //       dayItem.setAttribute('class', 'col-1');
-  //
-  //       const dayBtn = document.createElement('button');
-  //       dayBtn.setAttribute('class', 'btn btn-secondary');
-  //       dayBtn.textContent = currentDate.getDate();
-  //       dayItem.appendChild(dayBtn);
-  //
-  //       row.appendChild(dayItem);
-  //       currentDate.setDate(currentDate.getDate() + 1);
-  //     } else {
-  //       const emptyItem = document.createElement('div');
-  //       emptyItem.setAttribute('class', 'col-1');
-  //       emptyItem.textContent = '';
-  //       row.appendChild(emptyItem);
-  //     };
-  //   };
-  //   calendar.appendChild(row)
-  // };
 
   console.log('End Date:' + currentDate);
 
