@@ -28,7 +28,7 @@ block content
             div#calendar-dates 
         div.modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
-          button.btn.btn-primary(type='button') Sauvegarder
+          //-button.btn.btn-primary(type='button') Sauvegarder
     
   
   div.carousel.slide.h-100.mb-5#carousel-details(data-ride='carousel')
@@ -53,41 +53,42 @@ block content
         span.carousel-control-next-icon(aria-hidden='true')
         span.sr-only Next    
   
-  div.container
-    div.row
-      div.col.col-lg-4.offset-lg-4.mb-5.text-center
-        button.btn.btn-primary(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
-        input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='hidden', value='')
-    div.row
-      div.col-12.col-lg-4.mb-3
-        label.w-100
-          input.d-none.card-input-element(type='checkbox', name='pack')
-          div.card.card-input
-            div.card-body
-              h5.card-heading.mb-3 Pack Famille
-              p.card-text.text-center 2 vélos<br>Slackline<br>Jeu de boules
-              p.card-text.text-center= ' 30 €'
-      div.col-12.col-lg-4.mb-3
-        label.w-100
-          input.d-none.card-input-element(type='checkbox', name='pack', checked)
-          div.card.card-input
-            div.card-body
-              h5.card-heading.mb-3 Pack Voyage
-              p.card-text.text-center 4 vélos<br>Slackline<br>Bois de chauffage
-              p.card-text.text-center= ' 45 €'
-      div.col-12.col-lg-4.mb-3
-        label.w-100        
-          input.d-none.card-input-element(type='checkbox', name='pack')
-          div.card.card-input
-            div.card-body
-              h5.card-heading.mb-3 Pack Intégral
-              p.card-text.text-center Pack Famille<br>Pack Voyage<br>Jusqu'à 16 vélos
-              p.card-text.text-center= ' 80 €'
-    div.row.mb-5
-      div.col-12.col-lg-4.offset-lg-2.mb-3.text-center
-        p.btn.btn-outline-primary.btn-block.rounded-pill.user-select-none 125 €
-      div.col-12.col-lg-4.mb-3.text-center
-        button.btn.btn-primary.btn-block.rounded-pill(type='submit') Réserver
+  form(method='POST', action='')
+    div.container
+      div.row
+        div.col.col-lg-4.offset-lg-4.mb-5.text-center
+          button.btn.btn-primary#calendar-button(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
+          input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='hidden', name='dates', value='')
+      div.row
+        div.col-12.col-lg-4.mb-3
+          label.w-100
+            input.d-none.card-input-element(type='checkbox', name='pack-family')
+            div.card.card-input
+              div.card-body
+                h5.card-heading.mb-3 Pack Famille
+                p.card-text.text-center 2 vélos<br>Slackline<br>Jeu de boules
+                p.card-text.text-center= ' 30 €'
+        div.col-12.col-lg-4.mb-3
+          label.w-100
+            input.d-none.card-input-element(type='checkbox', name='pack-trip', checked)
+            div.card.card-input
+              div.card-body
+                h5.card-heading.mb-3 Pack Voyage
+                p.card-text.text-center 4 vélos<br>Slackline<br>Bois de chauffage
+                p.card-text.text-center= ' 45 €'
+        div.col-12.col-lg-4.mb-3
+          label.w-100        
+            input.d-none.card-input-element(type='checkbox', name='pack-all')
+            div.card.card-input
+              div.card-body
+                h5.card-heading.mb-3 Pack Intégral
+                p.card-text.text-center Pack Famille<br>Pack Voyage<br>Jusqu'à 16 vélos
+                p.card-text.text-center= ' 80 €'
+      div.row.mb-5
+        div.col-12.col-lg-4.offset-lg-2.mb-3.text-center
+          p.btn.btn-outline-primary.btn-block.rounded-pill.user-select-none 125 €
+        div.col-12.col-lg-4.mb-3.text-center
+          button.btn.btn-primary.btn-block.rounded-pill(type='submit') Réserver
   
   
   

@@ -32,6 +32,29 @@ p.btn {
   background-color: theme-color('primary');
 }
 
-#calendar .col {
-  @include rfs(12px);
+#calendar {
+  .col {
+      @include rfs(12px);
+      cursor: default;
+  }
+
+  .date-item {
+    color: theme-color('secondary');
+
+    cursor: default;
+  }
+
+  .clickeable {
+    color: theme-color('primary');
+
+    cursor: pointer;
+  }
+
+  .clickeable:hover {
+    color: theme-color('secondary');
+  }
+
+  .clicked {
+    color: theme-color('warning');
+  }
 }

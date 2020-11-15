@@ -9928,6 +9928,21 @@ p.btn {
 
 #calendar .col {
   font-size: 0.75rem;
+  cursor: default;
+}
+#calendar .date-item {
+  color: #6c757d;
+  cursor: default;
+}
+#calendar .clickeable {
+  color: #007bff;
+  cursor: pointer;
+}
+#calendar .clickeable:hover {
+  color: #6c757d;
+}
+#calendar .clicked {
+  color: #ffc107;
 }
 
 /*# sourceMappingURL=style.css.map */
