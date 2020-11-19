@@ -9896,6 +9896,11 @@ h3 {
     border-color: #dee2e6;
   }
 }
+#img-col img {
+  height: 50vh;
+  object-fit: contain;
+}
+
 #carousel-details img {
   width: 100%;
   height: 100%;

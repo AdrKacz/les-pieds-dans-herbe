@@ -1,57 +1,56 @@
 extends layout
 
+block custom-style
+  link(rel='stylesheet', href='/stylesheets/bg-home.css')
+
 block content
-  div.container
-    h1.display-4 Les Pieds Dans L'Herbe
+  div.container.mt-5
+    h1.display-4.mb-4 Les Pieds Dans L'Herbe
     
-    div.row
+    div.row.mb-5
       div.col.col-lg-4.mb-5.text-center
         a.btn.btn-primary.btn-lg.btn-block.rounded-pill.mb-3(href="/details") Réserver le gîte
         div.row
           div.col.text-right
             p à partir de 65 € la nuit
-      
-    div.row.text-center
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/nature.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Terrain de 170m&sup2;
-              li.list-group-item ...
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/bedroom.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Quatre lits doubles
-              li.list-group-item Deux lits simples
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/tv.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Télévision
-              li.list-group-item Satelitte
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/web-search.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Internet illimité
-              li.list-group-item ...
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/cook.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Cuisiné équipée
-              li.list-group-item ...
-      div.col-6.col-lg-2.mb-3.pr-3
-        div.card
-          img.card-img-top(src="/images/icons/svg/wash-hands.svg")
-          div.card-body
-            ul.list-group.list-group-flush
-              li.list-group-item Quatre salles d'eau
-              li.list-group-item Deux toilettes
+    
+    div.row.align-items-center.justify-content-between
+      divc.col-lg-4.h-100.mb-1#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/nature.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Terrain de 170m&sup2;
+    div.row.align-items-center.justify-content-between
+      div.col-lg-4.h-100.mb-1.order-lg-2#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/bedroom.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Quatre lits doubles
+          li.list-group-item Deux lits simples
+    div.row.align-items-center.justify-content-between
+      div.col-lg-4.h-100.mb-1#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/tv.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Télévision
+          li.list-group-item Satelitte
+    div.row.align-items-center.justify-content-between
+      div.col-lg-4.h-100.mb-1.order-lg-2#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/web-search.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Internet illimité
+    div.row.align-items-center.justify-content-between
+      div.col-lg-4.h-100.mb-1#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/cook.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Cuisiné équipée
+    div.row.align-items-center.justify-content-between
+      div.col-lg-4.h-100.mb-1.order-lg-2#img-col
+        img.w-100.img-fluid(src='/images/icons/svg/wash-hands.svg')
+      div.col-lg-6.mb-3
+        ul.list-group
+          li.list-group-item Quatre salles d'eau
+          li.list-group-item Deux toilettes
     

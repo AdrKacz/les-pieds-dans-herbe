@@ -2,6 +2,12 @@
 
 @import "../node_modules/rfs/scss";
 
+#img-col {
+  img {
+    height: 50vh;
+    object-fit: contain;
+  }
+}
 
 #carousel-details img {
   width: 100%;
