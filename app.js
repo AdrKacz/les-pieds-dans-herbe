@@ -14,10 +14,25 @@ var helmet = require('helmet');
 
 var app = express();
 
+// Import mongo db url
+var passwords = require('./secrets/passwords');
+
 // Import the mongoose module
 var mongoose = require('mongoose');
-var dev_db_url = "";
-var mongoDB = "";
+// Set up default mongoose connection
+var mongoDB = passwords.url;
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+});
+
+// Get the default connection
+var db = mongoose.connection;
+
+// Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
