@@ -12,6 +12,7 @@
     "serverstart": "npm run compile ; DEBUG=les-pieds-dans-herbe:* npm run devstart"
   },
   "dependencies": {
+    "async": "^3.2.0",
     "bootstrap": "^4.5.3",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",

@@ -110,7 +110,7 @@ previousBtn.addEventListener('click', _ => {
     CURRENT_YEAR -= 1;
   };
 
-  updateCalendar();
+  updateCalendarRoutine();
 });
 
 nextBtn.addEventListener('click', _ => {
@@ -120,7 +120,7 @@ nextBtn.addEventListener('click', _ => {
     CURRENT_YEAR += 1;
   };
 
-  updateCalendar();
+  updateCalendarRoutine();
 });
 
 // Event listener for date item
@@ -136,13 +136,19 @@ function dateClickedOn(e) {
     e.target.setAttribute('class', classes.join(' '));
 
     // Edit the form value and close the calendar
-
+    $('#calendar').modal('hide');
   }
 }
 
-function updateCalendar() {
-  // Clear previous month displayed
+function updateCalendarRoutine() {
+  fetch('http://127.0.0.1:3000/reservations/get-reservations')
+  .then(response => response.json())
+  .then(json => updateCalendar(json))
+  .catch(err => console.error('Fetch error: ' + err.message));
+};
 
+function updateCalendar(JSONReservations) {
+  // Clear previous month displayed
   while (calendar.firstChild) {
     calendar.removeChild(calendar.firstChild);
   };
@@ -153,6 +159,7 @@ function updateCalendar() {
 
   objMonth = MONTHS[CURRENT_MONTH];
   // Update text displaying month name and year number
+  console.log(JSONReservations);
   monthBtn.textContent = `${objMonth.long}, ${year}`;
 
   // Set up variable to current month viewed
@@ -212,7 +219,7 @@ $('#calendar').on('show.bs.modal', function(e) {
   firstSelectedDate = null;
   secondSelectedDate = null;
 
-  updateCalendar();
+  updateCalendarRoutine();
 });
 
 // At closing

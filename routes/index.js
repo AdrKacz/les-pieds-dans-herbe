@@ -3,6 +3,8 @@ var router = express.Router();
 
 var main_controller = require('../controllers/mainController')
 
+var reservation_controller = require('../controllers/reservationController')
+
 /// MAIN ROUTES ///
 
 // REDIRECT To Home Page
@@ -24,5 +26,11 @@ router.get('/book', main_controller.book_get);
 
 // POST Book Page
 router.post('/book', main_controller.book_post);
+
+
+// Route to private link to retreive information
+router.get('/reservations/get-reservations', reservation_controller.get_reservations);
+
+router.get('/reservations/get-calendar', reservation_controller.get_calendar)
 
 module.exports = router;

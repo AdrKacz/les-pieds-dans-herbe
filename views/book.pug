@@ -1,12 +1,41 @@
 extends layout
 
 block content
+  div.modal.text-center#calendar
+    div.modal-dialog
+      div.modal-content
+        div.modal-header
+          h5.modal-title Calendrier
+          button.close(type='button', data-dismiss='modal', aria-lable='Close')
+            span(aria-hidden='true') &times;
+        div.modal-body
+          div.container-fluid
+            div.row.mb-3
+              div.col.text-left
+                button.btn.btn-secondary#previous(type='button') &lt;
+              div.col.btn#month Month
+              div.col.text-right
+                button.btn.btn-secondary#next(type='button') &gt;
+            div.row.mb-3
+              div.col.px-1 L
+              div.col.px-1 M
+              div.col.px-1 M
+              div.col.px-1 J
+              div.col.px-1 V
+              div.col.px-1 S
+              div.col.px-1 D    
+            div#calendar-dates 
+        div.modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
+          //-button.btn.btn-primary(type='button') Sauvegarder
+          
   div.container.my-5
     h1 Réservation
   div.container
     div.row
       div.col-lg-4.order-lg-2.mb-5
-        input.btn.btn-outline-primary.btn-block.rounded-pill.mb-3(type='text', placeholder='20/08/2020 - 25/08/2020')
+        button.btn.btn-primary#calendar-button(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
+        input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='hidden', name='dates', value='')
         div.row
           div.col-4
             label.w-100
@@ -94,6 +123,7 @@ block content
       
 block scripts
   script(src="/javascripts/pack-form.js", defer)
+  script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/form-validation.js", defer)
         
   //-div.background

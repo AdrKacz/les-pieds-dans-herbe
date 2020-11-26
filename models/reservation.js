@@ -7,18 +7,30 @@ var Schema = mongoose.Schema;
 
 var ReservationSchema = new Schema(
   {
-    name: {type: String, minLength: 1, maxLength: 100},
-    surname: {type: String, minLength: 1, maxLength: 100},
-    email: {type: String, minLength: 1, maxLength: 100},
-    address: {type: String, minLength: 1, maxLength: 100},
-    country: {type: String, minLength: 1, maxLength: 100},
-    zip: {type: Number, minLength: 1, maxLength: 100},
+    name: {type: String, minLength: 1, maxLength: 100}, // Name of the person who reserves
+    surname: {type: String, minLength: 1, maxLength: 100}, // Surname of the person who reserves
+    email: {type: String, minLength: 1, maxLength: 100}, // Email of the person who reserves
+
+    address: {type: String, minLength: 1, maxLength: 100}, // Address of the person who reserves
+    country: {type: String, minLength: 1, maxLength: 100}, // Country of the person who reserves
+    zip: {type: Number, minLength: 1, maxLength: 100}, // ZIP code of the person who reserves
+
+    person: {type: Number, min: 1, max: 14}, // Number of persons
+    baby: {type: Number, min: 0, max: 1}, // Number of baby
+
     date_of_arrival: {type: Date, required: true},
     date_of_departure: {type: Date, required: true},
+
     pack: { type: String,
             enum: ['none', 'family', , 'travel', 'full'],
-            required: true}
-    id_token: {type: String, required: true},
+            required: true},
+
+    session_token: {type: String, required: true}, // Assigned token to keep track of a reservation
+
+    created: {type: Date, required: true, default: Date.now()}, // Date of first form validation
+
+    is_validated: {type: Boolean, required: true, default: false}, // true if payed
+    validated: {type: Date}, // Date of payment
   }
 );
 
