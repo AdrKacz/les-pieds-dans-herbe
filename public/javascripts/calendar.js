@@ -70,6 +70,33 @@ function isSameDate(d1, d2) {
 
   return true;
 };
+
+function isInRange(date, range) {
+  console.log('IS IN RANGE ?')
+  for (let i = 0; i < range.length; i++) {
+    dateA = new Date(range[i].date_of_arrival);
+    dateB = new Date(range[i].date_of_departure);
+    console.log(`Check ${date} with ${dateA} - ${dateA} -> (${dateA <= date}) and (${date <= dateB})`)
+    if (dateA <= date && date <= dateB) {
+      return true;
+    };
+  };
+  return false;
+};
+
+function isOverRange(dateFirst, dateLate, range) {
+  console.log('IS OVER RANGE ?');
+  for (let i = 0; i < range.length; i++) {
+    dateA = new Date(range[i].date_of_arrival);
+    dateB = new Date(range[i].date_of_departure);
+    console.log(`Check ${dateFirst} and ${dateLate} with ${dateA} - ${dateA} -> (${dateFirst <= dateA}) and (${dateB <= dateLate})`);
+    if (dateFirst <= dateA && dateB <= dateLate) {
+      return true;
+    };
+  };
+  return false;
+};
+
 // Set up class name for item
 const DATE_ITEM = 'date-item';
 const CLICKABLE = 'clickeable';
@@ -91,7 +118,8 @@ let firstSelectedDate = null;
 let secondSelectedDate = null;
 
 
-const calendarInput = document.querySelector('#calendar-input');
+const calendarInputArrival = document.querySelector('#calendar-input-arrival');
+const calendarInputDeparture = document.querySelector('#calendar-input-departure');
 const calendarButton = document.querySelector('#calendar-button');
 
 const calendarRoot = document.querySelector('#calendar');
@@ -119,7 +147,6 @@ nextBtn.addEventListener('click', _ => {
     CURRENT_MONTH = 0;
     CURRENT_YEAR += 1;
   };
-
   updateCalendarRoutine();
 });
 
@@ -134,11 +161,10 @@ function dateClickedOn(e) {
   else if (!secondSelectedDate && !isSameDate(firstSelectedDate, selectedDate)) {
     secondSelectedDate = selectedDate;
     e.target.setAttribute('class', classes.join(' '));
-
     // Edit the form value and close the calendar
     $('#calendar').modal('hide');
-  }
-}
+  };
+};
 
 function updateCalendarRoutine() {
   fetch('http://127.0.0.1:3000/reservations/get-reservations')
@@ -159,7 +185,6 @@ function updateCalendar(JSONReservations) {
 
   objMonth = MONTHS[CURRENT_MONTH];
   // Update text displaying month name and year number
-  console.log(JSONReservations);
   monthBtn.textContent = `${objMonth.long}, ${year}`;
 
   // Set up variable to current month viewed
@@ -174,9 +199,6 @@ function updateCalendar(JSONReservations) {
       if (i >= day && currentDate.getMonth() === month) {
         // Create date item clickeable
         classes = [LAYOUT, DATE_ITEM]
-        if (currentDate >= NOW) {
-          classes.push(CLICKABLE);
-        };
 
         // Create item
         const dayItem = document.createElement('div');
@@ -184,11 +206,11 @@ function updateCalendar(JSONReservations) {
         if (currentDate >= NOW) {
           if (isSameDate(firstSelectedDate, currentDate) || isSameDate(secondSelectedDate, currentDate)) {
             classes.push(CLICKED);
-          } else {
+          } else if (!isInRange(currentDate, JSONReservations)) {
             classes.push(CLICKABLE);
+            // Assign click listener
+            dayItem.addEventListener('click', dateClickedOn);
           }
-          // Assign click listener
-          dayItem.addEventListener('click', dateClickedOn);
         };
         dayItem.setAttribute('class', classes.join(' '));
         dayItem.textContent = currentDate.getDate();
@@ -205,9 +227,7 @@ function updateCalendar(JSONReservations) {
     calendar.appendChild(row)
   };
 
-  console.log('End Date:' + currentDate);
-
-  console.log(`Update Calendar [${objMonth.long}] ${firstDay}`);
+  console.log(`Updated Calendar [${objMonth.long}]`);
 };
 
 
@@ -232,7 +252,22 @@ $('#calendar').on('hide.bs.modal', function(e) {
       firstInTime = secondSelectedDate;
       secondInTime = firstSelectedDate;
     };
-    calendarInput.value = `${firstInTime.toDateString()}-${secondInTime.toDateString()}`;;
-    calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`;;;
+    // Check if no problem with reservation
+    fetch('http://127.0.0.1:3000/reservations/get-reservations')
+    .then(response => response.json())
+    .then(json => {
+      if (isOverRange(firstInTime, secondInTime, json)) {
+        calendarInputArrival.value = '';
+        calendarInputDeparture.value =  '';
+
+        calendarButton.textContent = 'Choisir ses dates';
+      } else {
+        calendarInputArrival.value = firstInTime.toISOString();
+        calendarInputDeparture.value =  secondInTime.toISOString();
+
+        calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`;
+      };
+    })
+    .catch(err => console.error('Fetch error: ' + err.message));
   };
 });

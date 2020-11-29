@@ -22,7 +22,7 @@ var ReservationSchema = new Schema(
     date_of_departure: {type: Date, required: true},
 
     pack: { type: String,
-            enum: ['none', 'family', , 'travel', 'full'],
+            enum: ['none', 'family', 'trip', 'all'],
             required: true},
 
     session_token: {type: String, required: true}, // Assigned token to keep track of a reservation
@@ -38,8 +38,15 @@ var ReservationSchema = new Schema(
 ReservationSchema
 .virtual('tripspan')
 .get(function () {
-  return (this.date_of_departure - this.date_of_arrival) / (86400000); // 1000 * 3600 * 24 milli in a day
+  return (this.date_of_departure - this.date_of_arrival) / (86400000); // 1day = 1000 * 3600 * 24 millisecond
 });
+
+// Virtual to access _id
+ReservationSchema
+.virtual('getID')
+.get(function() {
+  return this._id;
+})
 
 // Export model
 module.exports = mongoose.model('Reservation', ReservationSchema);

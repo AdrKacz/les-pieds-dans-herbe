@@ -58,7 +58,8 @@ block content
       div.row
         div.col.col-lg-4.offset-lg-4.mb-5.text-center
           button.btn.btn-primary#calendar-button(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
-          input.btn.btn-outline-primary.btn-block.rounded-pill#calendar-input(type='hidden', name='dates', value='')
+          input#calendar-input-arrival(type='hidden', name='date-arrival', value='')
+          input#calendar-input-departure(type='hidden', name='date-departure', value='')
       div.row
         div.col-12.col-lg-4.mb-3
           label.w-100

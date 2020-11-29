@@ -1,13 +1,15 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// var cookieParser = require('cookie-parser');
+// var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
+// Use to access session, not made for production, data stock server-side
+// Look at MemoryStore for production
+var session = require('express-session');
 
 var compression = require('compression');
 var helmet = require('helmet');
@@ -39,10 +41,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // app.use(helmet()); // Use only in production, problem with static files else
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser()); // Do not use with express-session
+app.use(session({
+  secret:'dev-secret',
+  resave: false, // Check the exact meaning
+  saveUninitialized: false, // Check the exact meaning
+  cookie: {
+    maxAge: 86400000 // 1 day in milliseconds
+  },
+}));
 app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
