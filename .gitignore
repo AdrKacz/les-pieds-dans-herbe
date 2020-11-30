@@ -1,6 +1,9 @@
 # Passwords
 secrets/
 
+# Development function
+populatedb.js
+
 # Logs
 logs
 *.log
