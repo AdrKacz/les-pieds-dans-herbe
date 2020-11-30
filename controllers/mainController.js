@@ -20,6 +20,10 @@ exports.details_post = [
   body('date-arrival').isISO8601().isAfter().toDate(),
   body('date-departure').isISO8601().isAfter().toDate(),
 
+  body('pack-family').escape().trim(),
+  body('pack-trip').escape().trim(),
+  body('pack-all').escape().trim(),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -60,7 +64,7 @@ exports.details_post = [
         // Successul
         console.log('Creation Successul');
         res.redirect('/book');
-      })
+      });
       console.log('New Reservation: ' + reservation);
 
     } else {
@@ -82,7 +86,7 @@ exports.details_post = [
     };
 
 
-  }
+  },
 ];
 
 // Display second step reservation page
@@ -93,6 +97,111 @@ exports.book_get = function(req, res, next) {
 // Handle post on the second reservation page
 // --> Update reservation assigned
 // --> Hanlde payment
-exports.book_post = function(req, res, next) {
-  res.render('book', {title: 'BOOK PAGE POST - NOT IMPLEMENTED', errors: null});
-};
+exports.book_post = [
+  // Validate request
+  body('date-arrival').isISO8601().isAfter().toDate(),
+  body('date-departure').isISO8601().isAfter().toDate(),
+
+  body('pack-family').escape().trim(),
+  body('pack-trip').escape().trim(),
+  body('pack-all').escape().trim(),
+
+  body('first-name').escape().trim(),
+  body('last-name').escape().trim(),
+
+  body('email').escape().trim(),
+
+  body('address').escape().trim(),
+
+  body('country').escape().trim(),
+  body('zip').escape().trim(),
+
+  body('cc-name').escape().trim(),
+  body('cc-number').escape().trim(),
+  body('cc-expiration').escape().trim(),
+  body('cc-cvv').escape().trim(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // There are errors.
+      // Need to render the form again, here simply send user to an error page
+      return res.status(400).json({errors: errors.array() });
+    };
+
+    // Assign pack value
+    console.log(req.body)
+    var pack = 'none';
+    if (req.body['pack-family']) {
+      pack = 'family';
+    } else if (req.body['pack-trip']) {
+      pack = 'trip';
+    } else if (req.body['pack-all']) {
+      pack = 'all';
+    };
+
+    // Check if the session already has a token
+    var token = req.session.token;
+    // If not, create one
+    if (!token) {
+      token = `${Date.now()}${Math.floor(Math.random() * 10000)}`;
+      req.session.token = token;
+
+      // Create reservation
+      var reservation = new Reservation({
+        name: req.body['first-name'],
+        surname: req.body['last-name'],
+        email: req.body['email'],
+
+        address: req.body['address'],
+        country: req.body['country'],
+        zip: req.body['zip'],
+
+        // Person to implement
+        // Baby to implement
+
+        date_of_arrival: req.body['date-arrival'],
+        date_of_departure: req.body['date-departure'],
+
+        pack: pack,
+
+        session_token: token,
+      });
+      reservation.save(function(err) {
+        if (err) {return next(err);};
+        // Successul
+        console.log('Creation Successful - Need to redirect to the paiment verification');
+        res.redirect('/home');
+      });
+
+    } else {
+      // Retrieve reservation and update it
+      Reservation.findOneAndUpdate(
+        {'session_token': token},
+        {
+          name: req.body['first-name'],
+          surname: req.body['last-name'],
+          email: req.body['email'],
+
+          address: req.body['address'],
+          country: req.body['country'],
+          zip: req.body['zip'],
+
+          // Person to implement
+          // Baby to implement
+
+          date_of_arrival: req.body['date-arrival'],
+          date_of_departure: req.body['date-departure'],
+
+          pack: pack,
+        },
+        {},
+        function(err, _) {
+        if (err) {return next(err);};
+        // Successful - redirect to book page
+        console.log('Update Successful - Need to redirect to the paiment verification');
+        res.redirect('/home');
+      });
+    };
+  },
+];

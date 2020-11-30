@@ -27,11 +27,15 @@ var ReservationSchema = new Schema(
 
     session_token: {type: String, required: true}, // Assigned token to keep track of a reservation
 
-    created: {type: Date, required: true, default: Date.now()}, // Date of first form validation
-
     is_validated: {type: Boolean, required: true, default: false}, // true if payed
     validated: {type: Date}, // Date of payment
-  }
+  },
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',},
+    autoIndex: false, // Need to check what it means, seem to be better to set it to false in production (https://mongoosejs.com/docs/guide.html#indexes)
+  },
 );
 
 // Virtual for trip span
@@ -41,12 +45,18 @@ ReservationSchema
   return (this.date_of_departure - this.date_of_arrival) / (86400000); // 1day = 1000 * 3600 * 24 millisecond
 });
 
-// Virtual to access _id
-ReservationSchema
-.virtual('getID')
-.get(function() {
-  return this._id;
-})
+// Assign function to return valid reservation queries
+ReservationSchema.query.byValidOnes = function() {
+  // OR can misbeahve with index (do not understand how they work), see more at (https://docs.mongodb.com/manual/reference/operator/query/or/)
+  return this.where({$or: [
+    {is_validated: true},
+    {updated_at: {
+      $gt: new Date(Date.now() - 1800000) // 1800000 millisecond is 30min
+    }},
+  ]});
+};
+
+
 
 // Export model
 module.exports = mongoose.model('Reservation', ReservationSchema);

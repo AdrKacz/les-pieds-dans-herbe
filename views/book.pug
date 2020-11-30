@@ -27,9 +27,8 @@ block content
             div#calendar-dates 
         div.modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
-          //-button.btn.btn-primary(type='button') Sauvegarder
   
-  form(method='POST', action='')        
+  form.needs-validation.was-validated(method='POST', action='', novalidate)  
     div.container.my-5
       h1 Réservation
     div.container
@@ -39,129 +38,101 @@ block content
           input#calendar-input-arrival(type='hidden', name='date-arrival', value='')
           input#calendar-input-departure(type='hidden', name='date-departure', value='')
           div.row
-            div.col-4
+            div.col-sm-4
               label.w-100
-                input.d-none.card-input-element(type='checkbox', name='pack')
+                input.d-none.card-input-element(type='checkbox', name='pack-family')
                 div.card.card-input
                   div.card-body
-                    h6.card-heading.mb-3.font-weight-light Pack Famille
-                    p.card-text.text-center.font-weight-light= ' 30 €'
-            div.col-4
+                    div.row
+                      div.col-8.col-sm-12
+                        h6.card-heading.mb-3.font-weight-light Pack Famille
+                      div.col-4.col-sm-12
+                        p.card-text.text-center.font-weight-light= ' 30 €'
+            div.col-sm-4
               label.w-100
-                input.d-none.card-input-element(type='checkbox', name='pack', checked)
+                input.d-none.card-input-element(type='checkbox', name='pack-trip', checked)
                 div.card.card-input
                   div.card-body
-                    h6.card-heading.mb-3.font-weight-light Pack Voyage
-                    p.card-text.text-center.font-weight-light= ' 45 €'
-            div.col-4
+                    div.row
+                      div.col-8.col-sm-12
+                        h6.card-heading.mb-3.font-weight-light Pack Voyage
+                      div.col-4.col-sm-12
+                        p.card-text.text-center.font-weight-light= ' 45 €'
+            div.col-sm-4
               label.w-100        
-                input.d-none.card-input-element(type='checkbox', name='pack')
+                input.d-none.card-input-element(type='checkbox', name='pack-all')
                 div.card.card-input
                   div.card-body
-                    h6.card-heading.mb-3.font-weight-light Pack Intégral
-                    p.card-text.text-center.font-weight-light= ' 80 €'
+                    div.row
+                      div.col-8.col-sm-12
+                        h6.card-heading.mb-3.font-weight-light Pack Intégral
+                      div.col-4.col-sm-12
+                        p.card-text.text-center.font-weight-light= ' 80 €'
                   
         div.col-lg-8.order-lg-1.pr-lg-5
           h4 Adresse de facturation
-          form.needs-validation.was-validated(novalidate)
-            div.row
-              div.col-lg-6.mb-3
-                label(for='first-name') Prénom
-                input.form-control#first-name(type='text', required)
-                div.invalid-feedback Prénom nécessaire
-              div.col-lg-6.mb-3
-                label(for='last-name') Nom de famille
-                input.form-control#last-name(type='text', required)
-                div.invalid-feedback Nom de famille nécessaire
-            div.mb-3
-              label(for='email') Email
-              input.form-control#email(type='email', placeholder='abc@exemple.com', required)
-              div.invalid-feedback Email nécessaire
-            div.mb-3
-              label(for='address') Adresse
-              input.form-control#address(type='text', placeholder='1234 Rue ABC', required)
-              div.invalid-feedback Adresse nécessaire
-            div.row
-              div.col-lg-9.mb-3
-                label(for='country') Pays
-                select.custom-select.form-control.d-block.w-100#country(required)
-                  option(value='france' selected) France
-                  option(value='spain') Espagne
-                  option(value='italy') Italie
-                  option(value='germany') Allemagne
-                  option(value='other') Autre
-                div.invalid-feedback Pays invalide
-              div.col-lg-3.mb-3
-                label(for='zip') Zip
-                input.form-control#zip(type='text', required)
-                div.invalid-feedback Zip invalide
-            hr.mb-4
-            h4 Paiement
-            div.row
-              div.col-lg-6.mb-3
-                label(for='cc-name') Nom
-                input.form-control#cc-name(type='text', required)
-                small.text-muted Nom complet écrit sur la carte de paiement
-                div.invalid-feedback Nom nécessaire
-              div.col-lg-6.mb-3
-                label(for='cc-number') Numéro
-                input.form-control#cc-number(type='text', required)
-                small.text-muted Numéro inscrit sur la carte de paiement
-                div.invalid-feedback Numéro nécessaire
-            div.row
-              div.col-lg-3.mb-3
-                label(for='cc-expiration') Date d'expiration
-                input.form-control#cc-expiration(type='text', required)
-                div.invalid-feedback Date d'expiration nécessaire
-              div.col-lg-3.mb-3
-                label(for='cc-cvv') CVV
-                input.form-control#cc-cvv(type='text', required)
-                small.text-muted Trois chiffres inscrit au dos de la carte de paiement
-                div.invalid-feedback Code de sécurité nécessaire
-            hr.mb-4
-            button.btn.btn-primary.btn-lg.btn-block(type='submit') Confirmer le paiement
+          div.row
+            div.col-lg-6.mb-3
+              label(for='first-name') Prénom
+              input.form-control(name='first-name', type='text', required)
+              div.invalid-feedback Prénom nécessaire
+            div.col-lg-6.mb-3
+              label(for='last-name') Nom de famille
+              input.form-control(name='last-name', type='text', required)
+              div.invalid-feedback Nom de famille nécessaire
+          div.mb-3
+            label(for='email') Email
+            input.form-control(name='email', type='email', placeholder='abc@exemple.com', required)
+            div.invalid-feedback Email nécessaire
+          div.mb-3
+            label(for='address') Adresse
+            input.form-control(name='address', type='text', placeholder='1234 Rue ABC', required)
+            div.invalid-feedback Adresse nécessaire
+          div.row
+            div.col-lg-9.mb-3
+              label(for='country') Pays
+              select.custom-select.form-control.d-block.w-100#country(name='country', required)
+                option(value='france' selected) France
+                option(value='spain') Espagne
+                option(value='italy') Italie
+                option(value='germany') Allemagne
+                option(value='other') Autre
+              div.invalid-feedback Pays invalide
+            div.col-lg-3.mb-3
+              label(for='zip') Zip
+              input.form-control(name='zip', type='text', required)
+              div.invalid-feedback Zip invalide
+          hr.mb-4
+          h4 Paiement
+          div.row
+            div.col-lg-6.mb-3
+              label(for='cc-name') Nom
+              input.form-control(name='cc-name', type='text', required)
+              small.text-muted Nom complet écrit sur la carte de paiement
+              div.invalid-feedback Nom nécessaire
+            div.col-lg-6.mb-3
+              label(for='cc-number') Numéro
+              input.form-control(name='cc-number', type='text', required)
+              small.text-muted Numéro inscrit sur la carte de paiement
+              div.invalid-feedback Numéro nécessaire
+          div.row
+            div.col-lg-3.mb-3
+              label(for='cc-expiration') Date d'expiration
+              input.form-control(name='cc-expiration', type='text', required)
+              div.invalid-feedback Date d'expiration nécessaire
+            div.col-lg-3.mb-3
+              label(for='cc-cvv') CVV
+              input.form-control(name='cc-cvv', type='text', required)
+              small.text-muted Trois chiffres inscrit au dos de la carte de paiement
+              div.invalid-feedback Code de sécurité nécessaire
+          hr.mb-4
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Confirmer le paiement
               
           
       
 block scripts
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)
+  script(src="/javascripts/load-session.js", defer)
   script(src="/javascripts/form-validation.js", defer)
         
-  //-div.background
-
-  //-h1 Réservation
-  //-div.round-box.dates
-    p 20/08/2020 - 25/08/2020
-  
-  //-ul.pack
-    li
-      h2 Pack Famille
-      p 30 €
-    li.selected
-      h2 Pack Voyage
-      p 45 €
-    li
-      h2 Pack Intégral
-      p 80 €
-      
-  //-form
-    div
-      input(type='text', placeholder='Prénom', name='prenom', required='true')
-    div
-      input(type='text', placeholder='Nom', name='nom', required='true')
-    div
-      input(type='date', placeholder='Date de naissance', name='naissance', required='true')
-    div
-      input(type='text', placeholder='Adresse de facturation', name='facturation', required='true')
-    div
-      input(class='small-input', type='number', placeholder='Code postal', name='code-postal', required='true')
-    div
-      input(class='small-input', type='text', placeholder='Ville', name='ville', required='true')
-    div
-      input(type='email', placeholder='Adresse email', name='email', required='true')
-
-    div.round-box.confirm.price
-      p 125 €
-    div.round-box.confirm
-      input(type='submit', value='Confirmer')

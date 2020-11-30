@@ -72,11 +72,9 @@ function isSameDate(d1, d2) {
 };
 
 function isInRange(date, range) {
-  console.log('IS IN RANGE ?')
   for (let i = 0; i < range.length; i++) {
     dateA = new Date(range[i].date_of_arrival);
     dateB = new Date(range[i].date_of_departure);
-    console.log(`Check ${date} with ${dateA} - ${dateA} -> (${dateA <= date}) and (${date <= dateB})`)
     if (dateA <= date && date <= dateB) {
       return true;
     };
@@ -85,11 +83,9 @@ function isInRange(date, range) {
 };
 
 function isOverRange(dateFirst, dateLate, range) {
-  console.log('IS OVER RANGE ?');
   for (let i = 0; i < range.length; i++) {
     dateA = new Date(range[i].date_of_arrival);
     dateB = new Date(range[i].date_of_departure);
-    console.log(`Check ${dateFirst} and ${dateLate} with ${dateA} - ${dateA} -> (${dateFirst <= dateA}) and (${dateB <= dateLate})`);
     if (dateFirst <= dateA && dateB <= dateLate) {
       return true;
     };
@@ -104,7 +100,8 @@ const CLICKED = 'clicked';
 const LAYOUT = 'col px-1 py-2';
 
 // Set up the current date and associative variable
-const NOW = new Date()
+const NOW = new Date();
+NOW.setDate(NOW.getDate() + 1); // Cannot coming the same day as booking
 const NOW_DAY = NOW.getDate();
 const NOW_MONTH = NOW.getMonth();
 const NOW_YEAR = NOW.getFullYear();
@@ -128,8 +125,6 @@ const previousBtn = document.querySelector('#previous');
 const nextBtn = document.querySelector('#next');
 const calendar = document.querySelector('#calendar-dates');
 
-const startDateInput = '';
-const endDateInput = '';
 
 previousBtn.addEventListener('click', _ => {
   CURRENT_MONTH -= 1;
@@ -169,7 +164,7 @@ function dateClickedOn(e) {
 function updateCalendarRoutine() {
   fetch('http://127.0.0.1:3000/reservations/get-reservations')
   .then(response => response.json())
-  .then(json => updateCalendar(json))
+  .then(json => updateCalendar(json.global))
   .catch(err => console.error('Fetch error: ' + err.message));
 };
 
@@ -203,7 +198,7 @@ function updateCalendar(JSONReservations) {
         // Create item
         const dayItem = document.createElement('div');
         // Assign classes
-        if (currentDate >= NOW) {
+        if (currentDate > NOW) {
           if (isSameDate(firstSelectedDate, currentDate) || isSameDate(secondSelectedDate, currentDate)) {
             classes.push(CLICKED);
           } else if (!isInRange(currentDate, JSONReservations)) {
@@ -256,7 +251,7 @@ $('#calendar').on('hide.bs.modal', function(e) {
     fetch('http://127.0.0.1:3000/reservations/get-reservations')
     .then(response => response.json())
     .then(json => {
-      if (isOverRange(firstInTime, secondInTime, json)) {
+      if (isOverRange(firstInTime, secondInTime, json.global)) {
         calendarInputArrival.value = '';
         calendarInputDeparture.value =  '';
 
@@ -265,7 +260,7 @@ $('#calendar').on('hide.bs.modal', function(e) {
         calendarInputArrival.value = firstInTime.toISOString();
         calendarInputDeparture.value =  secondInTime.toISOString();
 
-        calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`;
+        calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`; // Need a language dependent text
       };
     })
     .catch(err => console.error('Fetch error: ' + err.message));

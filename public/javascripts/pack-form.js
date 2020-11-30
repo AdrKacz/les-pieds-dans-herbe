@@ -3,7 +3,7 @@
 const checkboxes = document.querySelectorAll("input[type='checkbox']");
 
 for (var i = 0; i < checkboxes.length; i++) {
-  checkboxes[i].addEventListener('click', switchCheck);
+  checkboxes[i].addEventListener('change', switchCheck);
 };
 
 
