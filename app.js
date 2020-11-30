@@ -16,13 +16,13 @@ var helmet = require('helmet');
 
 var app = express();
 
-// Import mongo db url
-var passwords = require('./secrets/passwords');
-
 // Import the mongoose module
 var mongoose = require('mongoose');
 // Set up default mongoose connection
-var mongoDB = passwords.url;
+
+// var passwords = require('./secrets/passwords'); // Use only in development
+// var mongoDB = passwords.url; // Use only in development
+var mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
