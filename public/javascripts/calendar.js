@@ -1,4 +1,9 @@
 // MAIN const
+
+// http://127.0.0.1:3000/reservations/get-reservations
+// https://young-ravine-32334.herokuapp.com/reservations/get-reservations
+const ADDRESS = 'https://young-ravine-32334.herokuapp.com/reservations/get-reservations';
+
 const MONTHS = [
   {
     long:'Janvier',
@@ -162,7 +167,7 @@ function dateClickedOn(e) {
 };
 
 function updateCalendarRoutine() {
-  fetch('http://127.0.0.1:3000/reservations/get-reservations')
+  fetch(ADDRESS)
   .then(response => response.json())
   .then(json => updateCalendar(json.global))
   .catch(err => console.error('Fetch error: ' + err.message));
@@ -248,7 +253,7 @@ $('#calendar').on('hide.bs.modal', function(e) {
       secondInTime = firstSelectedDate;
     };
     // Check if no problem with reservation
-    fetch('http://127.0.0.1:3000/reservations/get-reservations')
+    fetch(ADDRESS)
     .then(response => response.json())
     .then(json => {
       if (isOverRange(firstInTime, secondInTime, json.global)) {

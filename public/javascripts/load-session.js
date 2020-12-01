@@ -12,7 +12,7 @@ const packAllCheck = document.querySelector('input[name="pack-all"]');
 
 // Load previous reservation if any
 window.onload = function() {
-  fetch('http://127.0.0.1:3000/reservations/get-reservations')
+  fetch(ADDRESS)
     .then(response => response.json())
     .then(json => {
       if (!json.personal) {
