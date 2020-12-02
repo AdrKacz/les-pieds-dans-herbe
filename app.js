@@ -1,28 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-// var cookieParser = require('cookie-parser');
-// var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+// const cookieParser = require('cookie-parser');
+// const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 // Use to access session, not made for production, data stock server-side
 // Look at MemoryStore for production
-var session = require('express-session');
+const session = require('express-session');
 
-var compression = require('compression');
-var helmet = require('helmet');
+const compression = require('compression');
+const helmet = require('helmet');
+
+// Import the mongoose module
+const mongoose = require('mongoose');
 
 var app = express();
 
-// Import the mongoose module
-var mongoose = require('mongoose');
 // Set up default mongoose connection
+var passwords = require('./secrets/passwords'); // [DEV] Use only in development
+var mongoDB = passwords.mongo; // [DEV] Use only in development
 
-// var passwords = require('./secrets/passwords'); // Use only in development
-// var mongoDB = passwords.url; // Use only in development
-var mongoDB = process.env.MONGODB_URI;
+// var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -40,7 +41,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(helmet()); // Use only in production, problem with static files else
+// app.use(helmet()); // [PROD] Use only in production, problem with static files else
 // app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
