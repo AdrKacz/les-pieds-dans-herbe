@@ -23,9 +23,10 @@ var ReservationSchema = new Schema(
 
     pack: { type: String,
             enum: ['none', 'family', 'trip', 'all'],
-            required: true},
+            required: true,
+            default: 'none'},
 
-    session_token: {type: String, required: true}, // Assigned token to keep track of a reservation
+    session_token: {type: String, required: true, default: ''}, // Assigned token to keep track of a reservation
 
     is_validated: {type: Boolean, required: true, default: false}, // true if payed
     validated: {type: Date}, // Date of payment
