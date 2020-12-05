@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var main_controller = require('../controllers/mainController')
-
-var reservation_controller = require('../controllers/reservationController')
+const mainController = require('../controllers/mainController');
+const reservationController = require('../controllers/reservationController');
+const paymentController = require('../controllers/paymentController');
 
 /// MAIN ROUTES ///
 
@@ -13,24 +13,27 @@ router.get('/', function(req, res) {
 });
 
 // GET Home Page
-router.get('/home', main_controller.home);
+router.get('/home', mainController.home);
 
 // GET Details Page
-router.get('/details', main_controller.details_get);
+router.get('/details', mainController.details_get);
 
 // POST Details Page
-router.post('/details', main_controller.details_post);
+router.post('/details', mainController.details_post);
 
 // GET Book Page
-router.get('/book', main_controller.book_get);
+router.get('/book', mainController.book_get);
 
 // POST Book Page
-router.post('/book', main_controller.book_post);
+router.post('/book', mainController.book_post);
 
 
 // Route to private link to retreive information
-router.get('/reservations/get-reservations', reservation_controller.get_reservations);
+router.get('/reservations/get-reservations', reservationController.get_reservations);
 
-router.get('/reservations/get-calendar', reservation_controller.get_calendar)
+router.get('/reservations/get-calendar', reservationController.get_calendar);
+
+// Route to handle payment
+router.get('/payment/create-payment-intent', paymentController.create_payment_intent);
 
 module.exports = router;

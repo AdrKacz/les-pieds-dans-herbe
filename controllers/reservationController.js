@@ -60,7 +60,7 @@ function iCALParser(textResponse) {
 // Return JSON object with reservation from database
 exports.get_reservations = function(req, res, next) {
   // Check for token session
-  var token = req.session.token;
+  const token = req.session.token;
 
   // Need to make a custom queries to select only conformed and updated in the last hour
   // Can make this directly in the Schema (because it is dependant of it)
@@ -97,7 +97,7 @@ exports.get_reservations = function(req, res, next) {
     },
   }, function(err, results) {
     if (err) {return next(err)};
-    // Successul, so send the data
+    // Successful, so send the data
     res.json({personal:results.personal, global:results.global.concat(results.airbnb)});
   });
 };

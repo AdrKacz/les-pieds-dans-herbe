@@ -1,8 +1,6 @@
 // MAIN const
 
-// http://127.0.0.1:3000/reservations/get-reservations
-// https://young-ravine-32334.herokuapp.com/reservations/get-reservations
-const ADDRESS = 'http://127.0.0.1:3000/reservations/get-reservations';
+const ADDRESS = '/reservations/get-reservations';
 
 const MONTHS = [
   {

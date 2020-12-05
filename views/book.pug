@@ -28,7 +28,7 @@ block content
         div.modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
   
-  form.needs-validation.was-validated(method='POST', action='', novalidate)  
+  form.needs-validation.was-validated#payment-form(method='POST', action='', novalidate)  
     div.container.my-5
       h1 Réservation
     div.container
@@ -105,6 +105,8 @@ block content
           hr.mb-4
           h4 Paiement
           div.row
+            div#payment-card-element
+          //-div.row
             div.col-lg-6.mb-3
               label(for='cc-name') Nom
               input.form-control(name='cc-name', type='text', required)
@@ -115,7 +117,7 @@ block content
               input.form-control(name='cc-number', type='text', required)
               small.text-muted Numéro inscrit sur la carte de paiement
               div.invalid-feedback Numéro nécessaire
-          div.row
+          //-div.row
             div.col-lg-3.mb-3
               label(for='cc-expiration') Date d'expiration
               input.form-control(name='cc-expiration', type='text', required)
@@ -126,11 +128,13 @@ block content
               small.text-muted Trois chiffres inscrit au dos de la carte de paiement
               div.invalid-feedback Code de sécurité nécessaire
           hr.mb-4
-          button.btn.btn-primary.btn-lg.btn-block(type='submit') Confirmer le paiement
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Payer
               
           
       
 block scripts
+  //-script(src="https://js.stripe.com/v3/", defer)
+  
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/load-session.js", defer)
