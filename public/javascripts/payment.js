@@ -47,7 +47,7 @@ fetch('/payment/create-payment-intent', {
 
   const form = document.querySelector('#payment-form'); // id not needed
   form.addEventListener('submit', event => { // https://stripe.com/docs/payments/integration-builder
-    // event.preventDefault();
+    event.preventDefault();
     // Complete payment when the submit button is clicked
     payWithCard(stripe, card, json.clientSecret);
   });
