@@ -20,8 +20,8 @@ const mongoose = require('mongoose');
 var app = express();
 
 // Set up default mongoose connection
-var passwords = require('./secrets/passwords'); // [DEV] Use only in development
-var mongoDB = passwords.mongo; // [DEV] Use only in development
+const passwords = require('./secrets/passwords'); // [DEV] Use only in development
+const mongoDB = passwords.mongo; // [DEV] Use only in development
 
 // var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
 mongoose.connect(mongoDB, {

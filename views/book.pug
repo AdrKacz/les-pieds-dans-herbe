@@ -105,7 +105,7 @@ block content
           hr.mb-4
           h4 Paiement
           div.row
-            div#payment-card-element
+            div.w-100#payment-card-element
           //-div.row
             div.col-lg-6.mb-3
               label(for='cc-name') Nom
@@ -133,7 +133,8 @@ block content
           
       
 block scripts
-  //-script(src="https://js.stripe.com/v3/", defer)
+  script(src="https://js.stripe.com/v3/", defer)
+  script(src="/javascripts/payment.js", defer)
   
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)

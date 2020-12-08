@@ -34,6 +34,6 @@ router.get('/reservations/get-reservations', reservationController.get_reservati
 router.get('/reservations/get-calendar', reservationController.get_calendar);
 
 // Route to handle payment
-router.get('/payment/create-payment-intent', paymentController.create_payment_intent);
+router.post('/payment/create-payment-intent', paymentController.create_payment_intent);
 
 module.exports = router;
