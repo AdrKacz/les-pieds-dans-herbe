@@ -29,8 +29,9 @@ function iCALParser(textResponse) {
         const strDate = line.slice(-8, -4) + '/' + line.slice(-4, -2) + '/' + line.slice(-2);
         endDate = new Date(strDate);
 
-        // End Date is shifted by 1 (to let people leave their location, but we don't care here)
-        endDate.setDate(endDate.getDate() - 1);
+        // Not needed, down client side
+        // End Date is shifted by 1 (to let people leave their location, but we don't care here) --> As date_of_departure_used
+        // endDate.setDate(endDate.getDate() - 1);
       };
     };
 
@@ -56,11 +57,45 @@ function iCALParser(textResponse) {
   return ical;
 };
 
+// iCal creator
+// Create iCal from list of reservation
+function iCALCreate(reservations) {
+  // Check if there is reservation to send, return nothing if not
+  if (reservations.length === 0) {
+    return '';
+  };
+
+  // Global definition of the iCAL (look at the definiton of PRODID mainly !)
+  let iCALText = 'BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nPRODID:-//Les Pieds Dans Herbe Inc//Hosting Calendar//FR\n';
+
+  for (let i = 0; i < reservations.length; i++) {
+    iCALText += 'BEGIN:VEVENT\n';
+
+    // Add end date
+    iCALText += 'DTEND;VALUE=DATE:' + reservations[i].date_of_departure_iCAL + '\n';
+
+    // Add start date
+    iCALText += 'DTSTART;VALUE=DATE:' + reservations[i].date_of_arrival_iCAL + '\n';
+
+    // Add UID
+    iCALText += 'UID:' + reservations[i].session_token + '@lespiedsdansherbe\n';
+
+    // Check reserved
+    iCALText += 'SUMMARY:Reserved\n'
+
+    iCALText += 'END:VEVENT\n';
+  };
+
+  iCALText += 'END:VCALENDAR\n';
+  return iCALText;
+};
+
 
 // Return JSON object with reservation from database
 exports.get_reservations = function(req, res, next) {
   // Check for token session
   const token = req.session.token;
+  console.log('Token > ' + token)
 
   // Need to make a custom queries to select only conformed and updated in the last hour
   // Can make this directly in the Schema (because it is dependant of it)
@@ -98,6 +133,7 @@ exports.get_reservations = function(req, res, next) {
   }, function(err, results) {
     if (err) {return next(err)};
     // Successful, so send the data
+    console.log({personal:results.personal, global:results.global.concat(results.airbnb)})
     res.json({personal:results.personal, global:results.global.concat(results.airbnb)});
   });
 };
@@ -122,5 +158,17 @@ exports.get_full_reservation = function(req, res, next) {
 
 // Return iCAL object with reservation from database
 exports.get_calendar = function(req, res, next) {
-
+  // Perform request
+  async.parallel({
+    global: function(callback) {
+      Reservation.find({}, '-_id date_of_arrival date_of_departure date_of_arrival_iCAL date_of_departure_iCAL session_token').byValidOnes()
+        .exec(callback);
+    }
+  }, function(err, results) {
+    if (err) {return next(err)};
+    console.log('RESULTS >' + results.global);
+    // Successful, so convert to ics and send
+    res.set('Content-Type', 'text/calendar');
+    res.send(iCALCreate(results.global));
+  });
 };

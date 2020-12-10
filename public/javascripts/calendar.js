@@ -78,7 +78,7 @@ function isInRange(date, range) {
   for (let i = 0; i < range.length; i++) {
     dateA = new Date(range[i].date_of_arrival);
     dateB = new Date(range[i].date_of_departure);
-    if (dateA <= date && date <= dateB) {
+    if (dateA <= date && date < dateB) {
       return true;
     };
   };
@@ -128,6 +128,8 @@ const previousBtn = document.querySelector('#previous');
 const nextBtn = document.querySelector('#next');
 const calendar = document.querySelector('#calendar-dates');
 
+const alert_calendar = document.querySelector('div#calendar-error');
+
 
 previousBtn.addEventListener('click', _ => {
   CURRENT_MONTH -= 1;
@@ -159,8 +161,8 @@ function dateClickedOn(e) {
   else if (!secondSelectedDate && !isSameDate(firstSelectedDate, selectedDate)) {
     secondSelectedDate = selectedDate;
     e.target.setAttribute('class', classes.join(' '));
-    // Edit the form value and close the calendar
-    $('#calendar').modal('hide');
+    // Do not close the calender but wait for click on save
+    // $('#calendar').modal('hide');
   };
 };
 
@@ -233,16 +235,30 @@ function updateCalendar(JSONReservations) {
 
 // At opening
 $('#calendar').on('show.bs.modal', function(e) {
-  // Reset selected date
-  firstSelectedDate = null;
-  secondSelectedDate = null;
+  // Remove alert if displayed
+  alert_calendar.classList.add('d-none');
+
+  // Reset selected date if both were selected (else continue update of date)
+  if (secondSelectedDate) {
+    firstSelectedDate = null;
+    secondSelectedDate = null;
+  };
 
   updateCalendarRoutine();
 });
 
 // At closing
 $('#calendar').on('hide.bs.modal', function(e) {
-  // Save selected date if any and update interface
+  // Clear previous month displayed
+  while (calendar.firstChild) {
+    calendar.removeChild(calendar.firstChild);
+  };
+  // Do not save anything on close
+});
+
+// Get save button and save function when clicked on (then close modal)
+document.querySelector('#calendar-save-btn').addEventListener('click', _ => {
+  // Check if both date were selected
   if (firstSelectedDate && secondSelectedDate) {
     let firstInTime = firstSelectedDate;
     let secondInTime = secondSelectedDate;
@@ -255,10 +271,14 @@ $('#calendar').on('hide.bs.modal', function(e) {
     .then(response => response.json())
     .then(json => {
       if (isOverRange(firstInTime, secondInTime, json.global)) {
-        calendarInputArrival.value = '';
-        calendarInputDeparture.value =  '';
+        // Display error and throw error
+        alert_calendar.classList.remove('d-none');
+        // Reset calendar
+        firstSelectedDate = null;
+        secondSelectedDate = null;
+        updateCalendarRoutine();
 
-        calendarButton.textContent = 'Choisir ses dates';
+        throw new Error('Chosen dates are over range of already booked dates');
       } else {
         calendarInputArrival.value = firstInTime.toISOString();
         calendarInputDeparture.value =  secondInTime.toISOString();
@@ -266,6 +286,23 @@ $('#calendar').on('hide.bs.modal', function(e) {
         calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`; // Need a language dependent text
       };
     })
+    .then(_ => {
+      // Clear the calendar month displayed
+      while (calendar.firstChild) {
+        calendar.removeChild(calendar.firstChild);
+      };
+      // Close calendar (withour issue)
+      $('#calendar').modal('hide');
+    })
     .catch(err => console.error('Fetch error: ' + err.message));
+  } else {
+    // If not, displayed a message saying that saving couldn't be perform
+    console.error('At least one of the date wasn\'t selected');
+
+    alert_calendar.classList.remove('d-none');
+    // Reset calendar
+    firstSelectedDate = null;
+    secondSelectedDate = null;
+    updateCalendarRoutine();
   };
 });

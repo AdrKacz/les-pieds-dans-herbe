@@ -35,7 +35,7 @@ router.get('/reservations/get-reservations', reservationController.get_reservati
 
 router.get('/reservations/get-full-reservation', reservationController.get_full_reservation);
 
-router.get('/reservations/get-calendar', reservationController.get_calendar);
+router.get('/reservations/get-calendar.ics', reservationController.get_calendar);
 
 // Route to handle payment
 router.post('/payment/create-payment-intent', paymentController.create_payment_intent);

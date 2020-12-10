@@ -11,6 +11,7 @@ block content
             span(aria-hidden='true') &times;
         div.modal-body
           div.container-fluid
+            div.alert.alert-warning.d-none.mb-3#calendar-error(role='alert') Les dates choisies ne sont pas valides.
             div.row.mb-3
               div.col.text-left
                 button.btn.btn-secondary#previous(type='button') &lt;
@@ -27,8 +28,7 @@ block content
               div.col.px-1 D    
             div#calendar-dates 
         div.modal-footer
-          button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
-          //-button.btn.btn-primary(type='button') Sauvegarder
+          button.btn.btn-primary#calendar-save-btn(type='button') Sauvegarder
     
   
   div.carousel.slide.h-100.mb-5#carousel-details(data-ride='carousel')

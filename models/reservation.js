@@ -3,6 +3,11 @@ var mongoose = require('mongoose');
 
 // Define schema
 
+// Helper with Padding numbers
+function leftFillNum(num, targetLength) {
+    return num.toString().padStart(targetLength, 0);
+}
+
 var Schema = mongoose.Schema;
 
 var ReservationSchema = new Schema(
@@ -40,11 +45,25 @@ var ReservationSchema = new Schema(
   },
 );
 
-// Virtual for trip span
+// Virtual for trip span (not used)
 ReservationSchema
 .virtual('tripspan')
 .get(function () {
   return (this.date_of_departure - this.date_of_arrival) / (86400000); // 1day = 1000 * 3600 * 24 millisecond
+});
+
+// Virtual for iCAL GREGORIAN date format, date of arrival (add 1 to month, start at 0)
+ReservationSchema
+.virtual('date_of_arrival_iCAL')
+.get(function () {
+  return  `${leftFillNum(this.date_of_arrival.getFullYear(), 4)}${leftFillNum(this.date_of_arrival.getMonth() + 1, 2)}${leftFillNum(this.date_of_arrival.getDate(), 2)}`;
+});
+
+// Virtual for iCAL GREGORIAN date format, date of departure (add 1 to month, start at 0)
+ReservationSchema
+.virtual('date_of_departure_iCAL')
+.get(function () {
+  return  `${leftFillNum(this.date_of_departure.getFullYear(), 4)}${leftFillNum(this.date_of_departure.getMonth() + 1, 2)}${leftFillNum(this.date_of_departure.getDate(), 2)}`;
 });
 
 // Assign function to return valid reservation queries (already validated or updated not long ago - 30 min max-)
