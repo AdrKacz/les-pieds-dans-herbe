@@ -27,9 +27,13 @@ router.get('/book', mainController.book_get);
 // POST Book Page
 router.post('/book', mainController.book_post);
 
+// Get Pay Page (No POST, made internally with fetch and Stripe)
+router.get('/pay', mainController.pay);
 
 // Route to private link to retreive information
 router.get('/reservations/get-reservations', reservationController.get_reservations);
+
+router.get('/reservations/get-full-reservation', reservationController.get_full_reservation);
 
 router.get('/reservations/get-calendar', reservationController.get_calendar);
 

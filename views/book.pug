@@ -28,15 +28,16 @@ block content
         div.modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Fermer
   
-  form.needs-validation.was-validated#payment-form(method='POST', action='', novalidate)  
+  form.needs-validation#confirmation-form(method='POST', action='', novalidate)  
     div.container.my-5
       h1 Réservation
+    div.container.alert.alert-warning.d-none.mb-3#form-error(role='alert') Certains champs ne sont pas valides.
     div.container
       div.row
         div.col-lg-4.order-lg-2.mb-5
           button.btn.btn-primary.btn-block.mb-5#calendar-button(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
-          input#calendar-input-arrival(type='hidden', name='date-arrival', value='')
-          input#calendar-input-departure(type='hidden', name='date-departure', value='')
+          input#calendar-input-arrival(type='hidden', name='date-arrival', value='', required)
+          input#calendar-input-departure(type='hidden', name='date-departure', value='', required)
           div.row
             div.col-sm-4
               label.w-100
@@ -89,55 +90,32 @@ block content
             input.form-control(name='address', type='text', placeholder='1234 Rue ABC', required)
             div.invalid-feedback Adresse nécessaire
           div.row
-            div.col-lg-9.mb-3
-              label(for='country') Pays
-              select.custom-select.form-control.d-block.w-100#country(name='country', required)
-                option(value='france' selected) France
-                option(value='spain') Espagne
-                option(value='italy') Italie
-                option(value='germany') Allemagne
-                option(value='other') Autre
-              div.invalid-feedback Pays invalide
-            div.col-lg-3.mb-3
-              label(for='zip') Zip
+            div.col-lg-4.mb-3
+              label(for='zip') Code postal
               input.form-control(name='zip', type='text', required)
-              div.invalid-feedback Zip invalide
+              div.invalid-feedback Code postal invalide
+            div.col-lg-8.mb-3
+              label(for='city') Ville
+              input.form-control(name='city', type='text', required)
+              div.invalid-feedback Nom de ville invalide
+          div.mb-3
+            label(for='country') Pays
+            select.custom-select.form-control.d-block.w-100#country(name='country', required)
+              option(value='france' selected) France
+              option(value='spain') Espagne
+              option(value='italy') Italie
+              option(value='germany') Allemagne
+              option(value='other') Autre
+            div.invalid-feedback Pays invalide
           hr.mb-4
-          h4 Paiement
-          div.row
-            div.w-100#payment-card-element
-          //-div.row
-            div.col-lg-6.mb-3
-              label(for='cc-name') Nom
-              input.form-control(name='cc-name', type='text', required)
-              small.text-muted Nom complet écrit sur la carte de paiement
-              div.invalid-feedback Nom nécessaire
-            div.col-lg-6.mb-3
-              label(for='cc-number') Numéro
-              input.form-control(name='cc-number', type='text', required)
-              small.text-muted Numéro inscrit sur la carte de paiement
-              div.invalid-feedback Numéro nécessaire
-          //-div.row
-            div.col-lg-3.mb-3
-              label(for='cc-expiration') Date d'expiration
-              input.form-control(name='cc-expiration', type='text', required)
-              div.invalid-feedback Date d'expiration nécessaire
-            div.col-lg-3.mb-3
-              label(for='cc-cvv') CVV
-              input.form-control(name='cc-cvv', type='text', required)
-              small.text-muted Trois chiffres inscrit au dos de la carte de paiement
-              div.invalid-feedback Code de sécurité nécessaire
-          hr.mb-4
-          button.btn.btn-primary.btn-lg.btn-block(type='submit') Payer
+          button.btn.btn-primary.btn-lg.btn-block(type='submit') Confirmer
               
           
       
 block scripts
-  script(src="https://js.stripe.com/v3/", defer)
-  script(src="/javascripts/payment.js", defer)
-  
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/load-session.js", defer)
+  
   script(src="/javascripts/form-validation.js", defer)
         

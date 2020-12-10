@@ -113,8 +113,9 @@ exports.book_post = [
 
   body('address').escape().trim(),
 
-  body('country').escape().trim(),
   body('zip').escape().trim(),
+  body('city').escape().trim(),
+  body('country').escape().trim(),
 
   body('cc-name').escape().trim(),
   body('cc-number').escape().trim(),
@@ -156,6 +157,8 @@ exports.book_post = [
         address: req.body['address'],
         country: req.body['country'],
         zip: req.body['zip'],
+        city: req.body['city'],
+        country: req.body['country'],
 
         // Person to implement
         // Baby to implement
@@ -170,8 +173,8 @@ exports.book_post = [
       reservation.save(function(err) {
         if (err) {return next(err);};
         // Successul
-        console.log('Creation Successful - Need to redirect to the paiment verification');
-        res.redirect('/home');
+        console.log('Creation Successful - Need to redirect to the paiment page');
+        res.redirect('/pay');
       });
 
     } else {
@@ -184,8 +187,9 @@ exports.book_post = [
           email: req.body['email'],
 
           address: req.body['address'],
-          country: req.body['country'],
           zip: req.body['zip'],
+          city: req.body['city'],
+          country: req.body['country'],
 
           // Person to implement
           // Baby to implement
@@ -199,9 +203,14 @@ exports.book_post = [
         function(err, _) {
         if (err) {return next(err);};
         // Successful - redirect to book page
-        console.log('Update Successful - Need to redirect to the paiment verification');
-        res.redirect('/home');
+        console.log('Update Successful - Need to redirect to the paiment page');
+        res.redirect('/pay');
       });
     };
   },
 ];
+
+// Display last step reservation page, proceed to payment with Stripe API
+exports.pay = function(req, res, next) {
+  res.render('pay', {title: 'Paiement'});
+};

@@ -1,0 +1,64 @@
+extends layout
+
+block content 
+  div.container.my-5
+    h1 Récapitulatif
+  div.container
+    div.alert.alert-warning.d-none#warning(role='alert') Réservation non trouvée.  
+      a(href='/home') Retour à la page d'accueil
+    div.row
+      div.col-lg-4.order-lg-2.mb-5
+        div.row
+          div.col-sm-6.mb-3        
+            h5 Arrivée
+            p#date-of-arrival ...
+          div.col-sm-6.mb-3        
+            h5 Depart
+            p#date-of-departure ...
+        div.mb-3
+          h5 Pack
+          p#pack ...
+                
+      div.col-lg-8.order-lg-1.pr-lg-5
+        h4.mb-4 Adresse de facturation
+        div.row
+          div.col-lg-6.mb-3
+            h5 Prénom
+            p#first-name ...
+          div.col-lg-6.mb-3
+            h5 Nom de famille
+            p#last-name ...
+        div.mb-3
+          h5 Email
+          p#email ...
+        div.mb-3
+          h5 Adresse
+          p#address ...
+        div.row
+          div.col-lg-4.mb-3
+            h5 Code postal
+            p#zip ...
+          div.col-lg-8.mb-3
+            h5 Ville
+            p#city ...
+        div.mb-3
+          h5 Pays
+          p#country ...
+        hr.mb-4
+        form#payment-form
+          h4.mb-4 Paiement
+          div.row
+            div.col
+              div.py-3.px-2.mb-2.w-100#payment-card-element
+          hr.mb-4
+          button.btn.btn-primary.btn-lg.btn-block.mb-4(type='submit') Payer
+        div.alert.alert-success.d-none#success(role='alert') Paiement correctement effectué ! 
+          a(href='/home') Retour à la page d'acceuil
+        div.alert.alert-danger.d-none#danger(role='alert') Problème lors du paiment ... Veuillez réessayer.
+              
+          
+      
+block scripts
+  script(src="https://js.stripe.com/v3/", defer)
+  script(src="/javascripts/payment.js", defer)
+        

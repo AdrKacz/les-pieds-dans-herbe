@@ -53,13 +53,14 @@ block content
         span.carousel-control-next-icon(aria-hidden='true')
         span.sr-only Next    
   
-  form(method='POST', action='')
+  form.needs-validation(method='POST', action='')
+    div.container.alert.alert-warning.d-none.mb-3#form-error(role='alert') Certains champs ne sont pas valides.
     div.container
       div.row
         div.col.col-lg-4.offset-lg-4.mb-5.text-center
           button.btn.btn-primary#calendar-button(type='button', data-toggle='modal', data-target='#calendar') Choisir ses dates
-          input#calendar-input-arrival(type='hidden', name='date-arrival', value='')
-          input#calendar-input-departure(type='hidden', name='date-departure', value='')
+          input#calendar-input-arrival(type='hidden', name='date-arrival', value='', required)
+          input#calendar-input-departure(type='hidden', name='date-departure', value='', required)
       div.row
         div.col-12.col-lg-4.mb-3
           label.w-100
@@ -98,3 +99,4 @@ block scripts
   script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/load-session.js", defer)
   
+  script(src="/javascripts/form-validation.js", defer)

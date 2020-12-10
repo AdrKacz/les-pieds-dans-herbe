@@ -102,6 +102,24 @@ exports.get_reservations = function(req, res, next) {
   });
 };
 
+// Return valid resertion of the user already filled and not payed yet
+exports.get_full_reservation = function(req, res, next) {
+  // Check for token session
+  const token = req.session.token;
+
+  // Perform request
+  async.parallel({
+    personal: function(callback) {
+      Reservation.findOne({'session_token': token}, '-_id').byValidOnes().byPayableOnes()
+        .exec(callback);
+    },
+  }, function(err, results) {
+    if (err) {return next(err)};
+    // Successful, so send the data
+    res.json({personal:results.personal});
+  });
+};
+
 // Return iCAL object with reservation from database
 exports.get_calendar = function(req, res, next) {
 

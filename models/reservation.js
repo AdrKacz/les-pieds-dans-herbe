@@ -12,8 +12,9 @@ var ReservationSchema = new Schema(
     email: {type: String, minLength: 1, maxLength: 100}, // Email of the person who reserves
 
     address: {type: String, minLength: 1, maxLength: 100}, // Address of the person who reserves
+    zip: {type: String, minLength: 1, maxLength: 10}, // ZIP code of the person who reserves
+    city: {type: String, minLength: 1, maxLength: 100}, // ZIP code of the person who reserves
     country: {type: String, minLength: 1, maxLength: 100}, // Country of the person who reserves
-    zip: {type: Number, minLength: 1, maxLength: 100}, // ZIP code of the person who reserves
 
     person: {type: Number, min: 1, max: 14}, // Number of persons
     baby: {type: Number, min: 0, max: 1}, // Number of baby
@@ -46,7 +47,7 @@ ReservationSchema
   return (this.date_of_departure - this.date_of_arrival) / (86400000); // 1day = 1000 * 3600 * 24 millisecond
 });
 
-// Assign function to return valid reservation queries
+// Assign function to return valid reservation queries (already validated or updated not long ago - 30 min max-)
 ReservationSchema.query.byValidOnes = function() {
   // OR can misbeahve with index (do not understand how they work), see more at (https://docs.mongodb.com/manual/reference/operator/query/or/)
   return this.where({$or: [
@@ -55,6 +56,22 @@ ReservationSchema.query.byValidOnes = function() {
       $gt: new Date(Date.now() - 1800000) // 1800000 millisecond is 30min
     }},
   ]});
+};
+
+// Assign function to return reservation that need to be payed (filled and not payed yet)
+ReservationSchema.query.byPayableOnes = function() {
+return this.where({$and: [
+  // Every fields has been filled
+  {name: {$not: {$eq: null}}},
+  {surname: {$not: {$eq: null}}},
+  {email: {$not: {$eq: null}}},
+  {address: {$not: {$eq: null}}},
+  {zip: {$not: {$eq: null}}},
+  {city: {$not: {$eq: null}}},
+  {country: {$not: {$eq: null}}},
+  // Add persons and babies when implemented
+  {is_validated: false},
+]});
 };
 
 
