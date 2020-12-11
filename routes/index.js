@@ -40,4 +40,12 @@ router.get('/reservations/get-calendar.ics', reservationController.get_calendar)
 // Route to handle payment
 router.post('/payment/create-payment-intent', paymentController.create_payment_intent);
 
+router.post('/payment/validate', paymentController.validate_payment);
+
+// Get the price of a none existing reservation
+router.post('/payment/get-price-information', paymentController.get_price_information);
+
+// Get the price of an existing reservation
+router.get('/payment/get-price', paymentController.get_price);
+
 module.exports = router;

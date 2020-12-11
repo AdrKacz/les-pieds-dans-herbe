@@ -39,5 +39,8 @@ window.onload = function() {
       } else if (chosenPack === 'all') {
         packAllCheck.checked = true;
       };
+
+      // Update price (already imported)
+      updatePrice();
     });
 };

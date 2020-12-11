@@ -88,13 +88,15 @@ block content
                 p.card-text.text-center= ' 80 €'
       div.row.mb-5
         div.col-12.col-lg-4.offset-lg-2.mb-3.text-center
-          p.btn.btn-outline-primary.btn-block.rounded-pill.user-select-none 125 €
+          p.btn.btn-outline-primary.btn-block.rounded-pill.user-select-none.d-none#price-information ... €
         div.col-12.col-lg-4.mb-3.text-center
-          button.btn.btn-primary.btn-block.rounded-pill(type='submit') Réserver
+          button.btn.btn-primary.btn-block.rounded-pill.d-none(type='submit') Réserver
   
   
   
 block scripts
+  script(src="/javascripts/price-information.js", defer)
+
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/load-session.js", defer)

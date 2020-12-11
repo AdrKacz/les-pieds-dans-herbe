@@ -101,7 +101,8 @@ block content
               div.invalid-feedback Nom de ville invalide
           div.mb-3
             label(for='country') Pays
-            select.custom-select.form-control.d-block.w-100#country(name='country', required)
+            input.form-control(name='country', type='text', required)
+            //-select.custom-select.form-control.d-block.w-100#country(name='country', required)
               option(value='france' selected) France
               option(value='spain') Espagne
               option(value='italy') Italie
@@ -109,11 +110,14 @@ block content
               option(value='other') Autre
             div.invalid-feedback Pays invalide
           hr.mb-4
-          button.btn.btn-primary.btn-lg.btn-block(type='submit') Confirmer
+          p.btn.btn-outline-primary.btn-block.user-select-none.d-none#price-information 125 €
+          button.btn.btn-primary.btn-lg.btn-block.d-none(type='submit') Confirmer
               
           
       
 block scripts
+  script(src="/javascripts/price-information.js", defer)
+  
   script(src="/javascripts/pack-form.js", defer)
   script(src="/javascripts/calendar.js", defer)
   script(src="/javascripts/load-session.js", defer)

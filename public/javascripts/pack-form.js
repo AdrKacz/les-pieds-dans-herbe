@@ -13,4 +13,6 @@ function  switchCheck (e) {
       checkboxes[i].checked = false;
     };
   };
+  // Update the price (function should have been already imported)
+  updatePrice();
 };

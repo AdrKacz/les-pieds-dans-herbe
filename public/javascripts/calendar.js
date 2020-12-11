@@ -254,6 +254,8 @@ $('#calendar').on('hide.bs.modal', function(e) {
     calendar.removeChild(calendar.firstChild);
   };
   // Do not save anything on close
+  // Call the update price function (should have been already imported)
+  updatePrice();
 });
 
 // Get save button and save function when clicked on (then close modal)
@@ -280,17 +282,15 @@ document.querySelector('#calendar-save-btn').addEventListener('click', _ => {
 
         throw new Error('Chosen dates are over range of already booked dates');
       } else {
+        // Options to format the dates
+        const options = {year: 'numeric', month: 'long', day: 'numeric' };
         calendarInputArrival.value = firstInTime.toISOString();
         calendarInputDeparture.value =  secondInTime.toISOString();
 
-        calendarButton.textContent = `${firstInTime.toDateString()} - ${secondInTime.toDateString()}`; // Need a language dependent text
+        calendarButton.textContent = `${firstInTime.toLocaleDateString(undefined, options)} - ${secondInTime.toLocaleDateString(undefined, options)}`; // Need a language dependent text
       };
     })
     .then(_ => {
-      // Clear the calendar month displayed
-      while (calendar.firstChild) {
-        calendar.removeChild(calendar.firstChild);
-      };
       // Close calendar (withour issue)
       $('#calendar').modal('hide');
     })

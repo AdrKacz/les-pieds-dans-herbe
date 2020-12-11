@@ -33,8 +33,7 @@ exports.details_post = [
     };
 
     // Assign pack value
-    console.log(req.body)
-    var pack = 'none';
+    let pack = 'none';
     if (req.body['pack-family']) {
       pack = 'family';
     } else if (req.body['pack-trip']) {
@@ -44,14 +43,14 @@ exports.details_post = [
     };
 
     // Check if the session already has a token
-    var token = req.session.token;
+    let token = req.session.token;
     // If not, create one
     if (!token) {
       token = `${Date.now()}${Math.floor(Math.random() * 10000)}`;
       req.session.token = token;
 
       // Create reservation
-      var reservation = new Reservation({
+      const reservation = new Reservation({
         date_of_arrival: req.body['date-arrival'],
         date_of_departure: req.body['date-departure'],
 
@@ -62,10 +61,10 @@ exports.details_post = [
       reservation.save(function(err) {
         if (err) {return next(err);};
         // Successul
-        console.log('Creation Successul');
+        console.log('[NOT COMPLETE] New Reservation: ' + token);
         res.redirect('/book');
       });
-      console.log('New Reservation: ' + reservation);
+
 
     } else {
       // Retrieve reservation and update it
@@ -80,7 +79,7 @@ exports.details_post = [
         function(err, _) {
         if (err) {return next(err);};
         // Successful - redirect to book page
-        console.log('Update Successul');
+        console.log('[NOT COMPLETE] Update Successul - ' + token);
         res.redirect('/book');
       });
     };
@@ -131,8 +130,7 @@ exports.book_post = [
     };
 
     // Assign pack value
-    console.log(req.body)
-    var pack = 'none';
+    let pack = 'none';
     if (req.body['pack-family']) {
       pack = 'family';
     } else if (req.body['pack-trip']) {
@@ -141,39 +139,40 @@ exports.book_post = [
       pack = 'all';
     };
 
+    // Reservation object create/update
+    const objectReservation = {
+      name: req.body['first-name'],
+      surname: req.body['last-name'],
+      email: req.body['email'],
+
+      address: req.body['address'],
+      zip: req.body['zip'],
+      city: req.body['city'].toUpperCase(),
+      country: req.body['country'].toUpperCase(),
+
+      // Person to implement
+      // Baby to implement
+
+      date_of_arrival: req.body['date-arrival'],
+      date_of_departure: req.body['date-departure'],
+
+      pack: pack,
+    };
+
     // Check if the session already has a token
-    var token = req.session.token;
+    let token = req.session.token;
     // If not, create one
     if (!token) {
       token = `${Date.now()}${Math.floor(Math.random() * 10000)}`;
       req.session.token = token;
 
-      // Create reservation
-      var reservation = new Reservation({
-        name: req.body['first-name'],
-        surname: req.body['last-name'],
-        email: req.body['email'],
-
-        address: req.body['address'],
-        country: req.body['country'],
-        zip: req.body['zip'],
-        city: req.body['city'],
-        country: req.body['country'],
-
-        // Person to implement
-        // Baby to implement
-
-        date_of_arrival: req.body['date-arrival'],
-        date_of_departure: req.body['date-departure'],
-
-        pack: pack,
-
-        session_token: token,
-      });
+      // Update token and create reservation
+      objectReservation.session_token = token;
+      const reservation = new Reservation(objectReservation);
       reservation.save(function(err) {
         if (err) {return next(err);};
         // Successul
-        console.log('Creation Successful - Need to redirect to the paiment page');
+        console.log('Creation Successful - ' + token);
         res.redirect('/pay');
       });
 
@@ -181,29 +180,12 @@ exports.book_post = [
       // Retrieve reservation and update it
       Reservation.findOneAndUpdate(
         {'session_token': token},
-        {
-          name: req.body['first-name'],
-          surname: req.body['last-name'],
-          email: req.body['email'],
-
-          address: req.body['address'],
-          zip: req.body['zip'],
-          city: req.body['city'],
-          country: req.body['country'],
-
-          // Person to implement
-          // Baby to implement
-
-          date_of_arrival: req.body['date-arrival'],
-          date_of_departure: req.body['date-departure'],
-
-          pack: pack,
-        },
+        objectReservation,
         {},
         function(err, _) {
         if (err) {return next(err);};
         // Successful - redirect to book page
-        console.log('Update Successful - Need to redirect to the paiment page');
+        console.log('Update Successful - ' + token);
         res.redirect('/pay');
       });
     };

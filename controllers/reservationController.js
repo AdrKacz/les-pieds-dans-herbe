@@ -95,7 +95,7 @@ function iCALCreate(reservations) {
 exports.get_reservations = function(req, res, next) {
   // Check for token session
   const token = req.session.token;
-  console.log('Token > ' + token)
+  console.log('Get reservation > ' + token)
 
   // Need to make a custom queries to select only conformed and updated in the last hour
   // Can make this directly in the Schema (because it is dependant of it)
@@ -133,7 +133,6 @@ exports.get_reservations = function(req, res, next) {
   }, function(err, results) {
     if (err) {return next(err)};
     // Successful, so send the data
-    console.log({personal:results.personal, global:results.global.concat(results.airbnb)})
     res.json({personal:results.personal, global:results.global.concat(results.airbnb)});
   });
 };
@@ -166,7 +165,6 @@ exports.get_calendar = function(req, res, next) {
     }
   }, function(err, results) {
     if (err) {return next(err)};
-    console.log('RESULTS >' + results.global);
     // Successful, so convert to ics and send
     res.set('Content-Type', 'text/calendar');
     res.send(iCALCreate(results.global));
