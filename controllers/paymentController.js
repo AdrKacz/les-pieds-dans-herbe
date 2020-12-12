@@ -105,7 +105,7 @@ exports.create_payment_intent = function(req, res, next) {
       if (!token) {
         throw new Error('No Session Created');
       };
-      Reservation.findOne({'session_token': token}, '-_id date_of_arrival date_of_departure').byValidOnes().byPayableOnes()
+      Reservation.findOne({'session_token': token}, '-_id date_of_arrival date_of_departure email').byValidOnes().byPayableOnes()
         .exec((err, personal) => {
           reservationPersonal = personal;
           callback(err, personal);
@@ -136,7 +136,8 @@ exports.create_payment_intent = function(req, res, next) {
   }, function(err, results) {
     if (err) {return next(err)};
     // Successful, send secret to client
-    console.log('Create Payment ID: ' + results.clientSecret)
+    console.log('Create Payment ID: ' + results.clientSecret);
+
     res.json({clientSecret: results.clientSecret});
   });
 };
@@ -185,7 +186,33 @@ exports.validate_payment = function(req, res, next) {
   // https://stripe.com/docs/webhooks
   // https://stripe.com/docs/payments/accept-a-payment-synchronously
   // https://stripe.com/docs/payments/payment-intents/verifying-status (client side)
-  console.log('Validate Paiement: ' + req.body.paymentIntentId);
-  // Send information that the ID was validated
-  res.json({was_validated: true});
+
+  // Here use retreive Event (can only retreive event of the last 30 days, should be ok)
+  // A more clean manner would have been to use webhook
+  // Use the Stripe API Retreive Payment Intend instead (to not connect to the Stripe Terminal, so easier)
+
+  // Check out what Stripe means by the necessity of capturing the payment...
+
+  // Get token to retreive personal reservation
+  const token = req.session.token;
+
+  async.parallel({
+    payment: function(callback) {
+      // Request Stripe API for payment information
+      stripe.paymentIntents.retrieve(req.body.paymentIntentId)
+      .then(payment => callback(null, payment))
+      .catch(err => callback(err, null));
+    },
+  }, function (err, results) {
+    if (err) {return next(err)};
+    // Successful, send answer to the client
+    const was_validated = results.payment.status === 'succeeded' ? true : false;
+    console.log('[1] Async before answer');
+    res.json({was_validated: was_validated});
+    console.log('[2] End of async');
+  })
+
+  // Need async.series to update the reservation after succeeded tag read
+  console.log('[3] Outside async');
+
 };

@@ -1,22 +1,22 @@
-var async = require('async');
+const async = require('async');
 
 console.log('This script populates some test reservations.');
 
 // Get arguments passed on command line
-var passwords = require('./secrets/passwords');
+const passwords = require('./secrets/passwords');
 
-var Reservation = require('./models/reservation');
+const Reservation = require('./models/reservation');
 
 
 
-var mongoose = require('mongoose');
-var mongoDB = passwords.url;
+const mongoose = require('mongoose');
+const mongoDB = passwords.mongo;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var reservations = []
+const reservations = []
 
 function reservationCreate(inputs, cb) {
   var reservation = new Reservation({
@@ -54,7 +54,7 @@ function createReservations(cb) {
           reservationCreate({
             date_of_arrival: new Date(2020, 11, 29),
             date_of_departure: new Date(2020, 11, 30),
-            pack: 'travel',
+            pack: 'trip',
             session_token: '2',
             created: new Date(2020, 10, 20),
             is_validated: false,
@@ -81,10 +81,10 @@ async.series([
 // Optional callback
 function(err, results) {
     if (err) {
-        console.log('FINAL ERR: '+err);
+        console.log('FINAL ERR: ' + err);
     }
     else {
-        console.log('Reservations: '+ reservations);
+        console.log('Reservations: ' + reservations);
 
     }
     // All done, disconnect from database

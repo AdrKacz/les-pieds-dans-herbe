@@ -1,7 +1,7 @@
 // https://stripe.com/docs/payments/integration-builder
 
 // Call Stripe API and check payment
-const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripe = Stripe('pk_test_51HJaFTGzqXVg22vm3aqJNsKj7PdG2hdtBy7TXPsKr1xuG0fWjGB66f0asBGJ2l9Y0wBZZMP4S3e68AsjbPXr5qW900ZUclLY8M');
 const submitBtn = document.querySelector('button[type="submit"]');
 
 // The reservation of the client --> Do not need, should already have a token for the dates
@@ -30,7 +30,7 @@ fetch('/reservations/get-full-reservation')
   })
   .then(response => response.json())
   .then(json => {
-    console.log('Client Secret: ' + json.clientSecret);
+    // console.log('Client Secret: ' + json.clientSecret);
     const elements = stripe.elements({locale:'auto'}); // auto not needed, english in browser because browser preference language is english (set it to fr to force it)
 
     const style = {
@@ -92,7 +92,7 @@ function payWithCard(stripe, card, clientSecret) {
         showError(result.error.message);
       } else {
         // The payment suceeded!
-        console.log('Client Intent: ' + result.paymentIntent.id);
+        // console.log('Client Intent: ' + result.paymentIntent.id);
         orderComplete(result.paymentIntent.id);
       };
     });

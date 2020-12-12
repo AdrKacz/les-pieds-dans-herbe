@@ -77,6 +77,19 @@ ReservationSchema.query.byValidOnes = function() {
   ]});
 };
 
+// Assign function to return none valid reservation queries (already validated or updated not long ago - 30 min max-)
+ReservationSchema.query.byNoneValidOnes = function() {
+  // OR can misbeahve with index (do not understand how they work), see more at (https://docs.mongodb.com/manual/reference/operator/query/or/)
+  return this.where({$and: [
+    {is_validated: false},
+    {updated_at: {
+      $lt: new Date(Date.now() - 1800000) // 1800000 millisecond is 30min
+    }},
+  ]});
+};
+
+
+
 // Assign function to return reservation that need to be payed (filled and not payed yet)
 ReservationSchema.query.byPayableOnes = function() {
 return this.where({$and: [

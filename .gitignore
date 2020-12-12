@@ -3,6 +3,8 @@ secrets/
 
 # Development function
 populatedb.js
+deletealldb.js
+deleteunvaliddb.js
 
 # Logs
 logs
