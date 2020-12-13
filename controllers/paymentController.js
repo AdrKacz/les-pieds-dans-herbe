@@ -4,6 +4,17 @@ const async = require('async');
 // Import Strip to handle payment
 // const passwords = require('../secrets/passwords'); // [DEV] Use only in development
 // const stripe = require('stripe')(passwords.stripe); // [DEV] only
+
+// ----- During Phase test, use these card
+// ----- Payment succeeds
+// 4242 4242 4242 4242
+//
+// ----- Authentication required
+// 4000 0025 0000 3155
+//
+// ----- Payment is declined
+// 4000 0000 0000 9995
+
 const stripe = require('stripe')(process.env.STRIPE_SK); // [PROD] only
 
 // Import price
@@ -126,6 +137,8 @@ exports.create_payment_intent = function(req, res, next) {
       stripe.paymentIntents.create({
         amount: amountReservation,
         currency: 'eur',
+      }, {
+        idempotencyKey: reservationPersonal.session_token, // avoid creating many payment intents for the same transaction
       })
       .then(paymentIntent => {
         callback(null, paymentIntent.client_secret)
