@@ -41,16 +41,28 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+
+// [PROD] Use only in production, problem with static files else
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ['self', 'https://js.stripe.com/v3/'],
-      },
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "script-src": ["'self'", "example.com"],
     },
   })
-); // [PROD] Use only in production, problem with static files else
+);
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
+// -----
+
 // app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
