@@ -7,7 +7,7 @@ const async = require('async');
 const stripe = require('stripe')(process.env.STRIPE_SK); // [PROD] only
 
 // Import price
-const prices = require('../secrets/prices-rules');
+const prices = require('../prices/prices-rules');
 
 function calculateReservationAmount(reservation) {
   // Return price in cents (need to multiply by 100)
