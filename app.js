@@ -41,7 +41,15 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(helmet()); // [PROD] Use only in production, problem with static files else
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'script-src': ['self', 'https://js.stripe.com/v3/'],
+      }
+    }
+  })
+); // [PROD] Use only in production, problem with static files else
 // app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
