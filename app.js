@@ -47,7 +47,9 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "script-src": ["'self'", "https://js.stripe.com/v3/"],
+      "connect-src": ["'self'", "https://api.stripe.com"],
+      "frame-src": ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
+      "script-src": ["'self'", "https://js.stripe.com"],
     },
   })
 );
