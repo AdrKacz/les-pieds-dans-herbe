@@ -194,5 +194,7 @@ exports.book_post = [
 
 // Display last step reservation page, proceed to payment with Stripe API
 exports.pay = function(req, res, next) {
+  // Set the CSP to allow the load of stripe
+  res.set("Content-Security-Policy", "script-src 'https://js.stripe.com/v3/'"); // [PROD] Use in production
   res.render('pay', {title: 'Paiement'});
 };
