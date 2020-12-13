@@ -45,9 +45,10 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         'script-src': ['self', 'https://js.stripe.com/v3/'],
-      }
-    }
+      },
+    },
   })
 ); // [PROD] Use only in production, problem with static files else
 // app.use(logger('dev'));
