@@ -61,7 +61,7 @@ exports.details_post = [
       reservation.save(function(err) {
         if (err) {return next(err);};
         // Successul
-        console.log('[NOT COMPLETE] New Reservation: ' + token);
+        console.log('[DETAILS] New Reservation - ' + token);
         res.redirect('/book');
       });
 
@@ -79,7 +79,7 @@ exports.details_post = [
         function(err, _) {
         if (err) {return next(err);};
         // Successful - redirect to book page
-        console.log('[NOT COMPLETE] Update Successul - ' + token);
+        console.log('[DETAILS] Update Successul - ' + token);
         res.redirect('/book');
       });
     };
@@ -172,7 +172,7 @@ exports.book_post = [
       reservation.save(function(err) {
         if (err) {return next(err);};
         // Successul
-        console.log('Creation Successful - ' + token);
+        console.log('[BOOK] Creation Successful - ' + token);
         res.redirect('/pay');
       });
 
@@ -185,7 +185,7 @@ exports.book_post = [
         function(err, _) {
         if (err) {return next(err);};
         // Successful - redirect to book page
-        console.log('Update Successful - ' + token);
+        console.log('[BOOK] Update Successful - ' + token);
         res.redirect('/pay');
       });
     };

@@ -20,10 +20,10 @@ const mongoose = require('mongoose');
 var app = express();
 
 // Set up default mongoose connection
-const passwords = require('./secrets/passwords'); // [DEV] Use only in development
-const mongoDB = passwords.mongo; // [DEV] Use only in development
+// const passwords = require('./secrets/passwords'); // [DEV] Use only in development
+// const mongoDB = passwords.mongo; // [DEV] Use only in development
 
-// var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
+var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -41,12 +41,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(helmet()); // [PROD] Use only in production, problem with static files else
+app.use(helmet()); // [PROD] Use only in production, problem with static files else
 // app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser()); // Do not use with express-session
-app.use(session({
+app.use(session({ // [DEV] only use in development
   secret:'dev-secret',
   resave: false, // Check the exact meaning
   saveUninitialized: false, // Check the exact meaning
@@ -54,6 +54,7 @@ app.use(session({
     maxAge: 86400000 // 1 day in milliseconds
   },
 }));
+// [PROD] --> Need to find an alternative to session above (or correct it for production)
 app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));

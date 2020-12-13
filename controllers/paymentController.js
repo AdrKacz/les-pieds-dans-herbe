@@ -2,8 +2,9 @@ const Reservation = require('../models/reservation');
 const async = require('async');
 
 // Import Strip to handle payment
-const passwords = require('../secrets/passwords');
-const stripe = require('stripe')(passwords.stripe);
+// const passwords = require('../secrets/passwords'); // [DEV] Use only in development
+// const stripe = require('stripe')(passwords.stripe); // [DEV] only
+const stripe = require('stripe')(process.env.STRIPE_SK); // [PROD] only
 
 // Import price
 const prices = require('../secrets/prices-rules');
@@ -151,7 +152,8 @@ exports.get_price = function(req, res, next) {
   async.series({
     personal: function(callback) {
       if (!token) {
-        throw new Error('No Session Created');
+        callback(new Error('No session to retrieve'), null);
+        return;
       };
       // Get reservation and store
       Reservation.findOne({'session_token': token}, '-_id date_of_arrival date_of_departure').byValidOnes().byPayableOnes()
@@ -196,23 +198,54 @@ exports.validate_payment = function(req, res, next) {
   // Get token to retreive personal reservation
   const token = req.session.token;
 
-  async.parallel({
-    payment: function(callback) {
-      // Request Stripe API for payment information
+  async.series([
+    function(callback) {
+      // Request Stripe API for payment information, throw error if not (function called manualy by the customer --> This should not happen)
+      console.log('[1] Request Strip API about payment - ' + req.body.paymentIntentId);
       stripe.paymentIntents.retrieve(req.body.paymentIntentId)
-      .then(payment => callback(null, payment))
+      .then(payment => {
+        if (payment.status !== 'succeeded') {
+          // Throw error if the payment did not validate
+          throw new Error('Payment did not succeed'); // Use later to warn the customer about it
+        };
+        callback(null, payment);
+      })
       .catch(err => callback(err, null));
     },
-  }, function (err, results) {
-    if (err) {return next(err)};
-    // Successful, send answer to the client
-    const was_validated = results.payment.status === 'succeeded' ? true : false;
-    console.log('[1] Async before answer');
-    res.json({was_validated: was_validated});
-    console.log('[2] End of async');
-  })
-
-  // Need async.series to update the reservation after succeeded tag read
-  console.log('[3] Outside async');
-
+    function(callback) {
+      // Update reservation associated, throw error if no reservation found (this should never happen at this stage)
+      // Only update if validated (has already thrown error if not)
+      console.log('[2] Update the reservation - ' + token);
+      Reservation.findOneAndUpdate(
+        {'session_token': token},
+        {
+          is_validated: true,
+          validated: new Date(), // Current Date
+        },
+        {},
+        function(err, _) {
+          if (err) {
+            callback(new Error('Unable to update the reservation'), null);
+            return;
+          };
+          // Successul -> callback
+          callback(null, null)
+        }
+      )
+    },
+  ], function(err, results) {
+    if (err) {
+      if (err === new Error('Payment did not succeed')) {
+        // Problem with the payment
+        res.json({was_validated: false});
+      } else if (err === new Error('Unable to update the reservation')) {
+        // Problem with the reservation, however payment was successful
+        res.json({was_validated: true});
+      } else {
+        return next(err);
+      };
+    };
+    // Successful, inform the customer
+    res.json({was_validated: true});
+  });
 };
