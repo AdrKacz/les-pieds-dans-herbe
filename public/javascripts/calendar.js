@@ -230,6 +230,15 @@ function updateCalendar(JSONReservations) {
   console.log(`Updated Calendar [${objMonth.long}]`);
 };
 
+// Error displaying
+function alertShowError(message) {
+  if (message) {
+    alert_calendar.textContent = message;
+  };
+
+  alert_calendar.classList.remove('d-none');
+};
+
 
 // Modal event handler
 
@@ -268,13 +277,24 @@ document.querySelector('#calendar-save-btn').addEventListener('click', _ => {
       firstInTime = secondSelectedDate;
       secondInTime = firstSelectedDate;
     };
+    // Check is the book is at least two night long, return if not
+    if (secondInTime - firstInTime < 172800000) { // two days is 24*3600*1000 = 172800000 milliseconds
+      console.error('The reservation was too short');
+      alertShowError('Une réservation doit faire au minimum deux nuits');
+      // Reset calendar
+      firstSelectedDate = null;
+      secondSelectedDate = null;
+      updateCalendarRoutine();
+      // Quit
+      return;
+    };
     // Check if no problem with reservation
     fetch(ADDRESS)
     .then(response => response.json())
     .then(json => {
       if (isOverRange(firstInTime, secondInTime, json.global)) {
         // Display error and throw error
-        alert_calendar.classList.remove('d-none');
+        alertShowError(null);
         // Reset calendar
         firstSelectedDate = null;
         secondSelectedDate = null;
@@ -291,15 +311,14 @@ document.querySelector('#calendar-save-btn').addEventListener('click', _ => {
       };
     })
     .then(_ => {
-      // Close calendar (withour issue)
+      // Close calendar (without issue)
       $('#calendar').modal('hide');
     })
     .catch(err => console.error('Fetch error: ' + err.message));
   } else {
     // If not, displayed a message saying that saving couldn't be perform
     console.error('At least one of the date wasn\'t selected');
-
-    alert_calendar.classList.remove('d-none');
+    alertShowError('Les dates ne sont pas correctement sélectionnées');
     // Reset calendar
     firstSelectedDate = null;
     secondSelectedDate = null;

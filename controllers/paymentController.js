@@ -1,9 +1,32 @@
 const Reservation = require('../models/reservation');
 const async = require('async');
 
+// To send mail when reservation succeeded
+const nodemailer = require('nodemailer');
+// Transporter used to send mail
+const transporter = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "d3c6f745cc1431",
+    pass: "8d25a942538fef"
+  }
+});
+// Verify if the transporter is correctly et up
+transporter.verify(function(err, success) {
+  if (err) {
+    console.log(error);
+  } else {
+    console.log("Server is ready to take our messages");
+  }
+});
+
+// options for email date formatting
+const optionsEmailDateFormatting = {year: 'numeric', month: 'long', day: 'numeric' };
+
 // Import Strip to handle payment
-// const passwords = require('../secrets/passwords'); // [DEV] Use only in development
-// const stripe = require('stripe')(passwords.stripe); // [DEV] only
+const passwords = require('../secrets/passwords'); // [DEV] Use only in development
+const stripe = require('stripe')(passwords.stripe); // [DEV] only
 
 // ----- During Phase test, use these card
 // ----- Payment succeeds
@@ -15,7 +38,7 @@ const async = require('async');
 // ----- Payment is declined
 // 4000 0000 0000 9995
 
-const stripe = require('stripe')(process.env.STRIPE_SK); // [PROD] only
+// const stripe = require('stripe')(process.env.STRIPE_SK); // [PROD] only
 
 // Import price
 const prices = require('../prices/prices-rules');
@@ -210,6 +233,8 @@ exports.validate_payment = function(req, res, next) {
 
   // Get token to retreive personal reservation
   const token = req.session.token;
+  let reservationPersonal = null;
+  let amountPaid
 
   async.series([
     function(callback) {
@@ -221,10 +246,12 @@ exports.validate_payment = function(req, res, next) {
           // Throw error if the payment did not validate
           throw new Error('Payment did not succeed'); // Use later to warn the customer about it
         };
+        amountPaid = payment.amount / 100; // cents to euro
         callback(null, payment);
       })
       .catch(err => callback(err, null));
     },
+    // By now, the payment succeeded
     function(callback) {
       // Update reservation associated, throw error if no reservation found (this should never happen at this stage)
       // Only update if validated (has already thrown error if not)
@@ -233,32 +260,76 @@ exports.validate_payment = function(req, res, next) {
         {'session_token': token},
         {
           is_validated: true,
+          amount_paid: amountPaid,
           validated: new Date(), // Current Date
         },
         {},
-        function(err, _) {
+        function(err, personal) {
           if (err) {
             callback(new Error('Unable to update the reservation'), null);
             return;
           };
+          if (personal===null) {
+            callback(new Error('No reservation to update'), null);
+            return;
+          };
           // Successul -> callback
-          callback(null, null)
+          reservationPersonal = personal; // Store reservation for mail usage
+          callback(null, null);
         }
       )
     },
+    function(callback) {
+      // Send email to the owner
+      console.log('[3] Send Email to the owner');
+
+      const message = {
+        from: 'Gite Les Pied Dans l\'Herbe <gitelespieddanslherbe@nodemailer.com>',
+        to: 'You <you@nodemailer.com>',
+        subject: `A new trip was booked by ${reservationPersonal.name} ${reservationPersonal.surname}`,
+        text: `The customer ${token} book a trip for ${amountPaid} € from ${(new Date(reservationPersonal.date_of_arrival)).toLocaleDateString(undefined, optionsEmailDateFormatting)} to ${(new Date(reservationPersonal.date_of_departure)).toLocaleDateString(undefined, optionsEmailDateFormatting)}`
+      };
+
+      transporter.sendMail(message, callback);
+    },
+    function(callback) {
+      // Send email to the customer
+      console.log('[4] Send Email to the customer');
+
+      const message = {
+        from: 'Gite Les Pied Dans l\'Herbe <gitelespieddanslherbe@nodemailer.com>',
+        to: `${reservationPersonal.email}`,
+        subject: 'You book a trip',
+        text: `You book a trip for ${amountPaid} € from ${(new Date(reservationPersonal.date_of_arrival)).toLocaleDateString(undefined, optionsEmailDateFormatting)} to ${(new Date(reservationPersonal.date_of_departure)).toLocaleDateString(undefined, optionsEmailDateFormatting)}`
+      };
+
+      transporter.sendMail(message, callback);
+    }
   ], function(err, results) {
     if (err) {
-      if (err === new Error('Payment did not succeed')) {
+      if (err.message === 'Payment did not succeed') {
         // Problem with the payment
+        console.error('[NO SUCCESS] Payment not successful, user: ' + token);
         res.json({was_validated: false});
-      } else if (err === new Error('Unable to update the reservation')) {
+
+      } else if (err.message === 'Unable to update the reservation') {
         // Problem with the reservation, however payment was successful
+        console.error('[ERROR] Payment successful, error while updating the reservation, user: ' + token);
         res.json({was_validated: true});
+
+      } else if (err.message === 'No reservation to update') {
+        // Problem with the reservation, however payment was successful
+        console.error('[ERROR] Payment successful, no reservation to update');
+        res.json({was_validated: true});
+
       } else {
+        console.error(err)
         return next(err);
       };
+      return;
     };
     // Successful, inform the customer
+    console.log('[SUCCESS] Payment successful, user: ' + token);
     res.json({was_validated: true});
   });
 };

@@ -26,6 +26,7 @@
     "mongoose": "^5.10.15",
     "morgan": "~1.9.1",
     "node-fetch": "^2.6.1",
+    "nodemailer": "^6.4.17",
     "popper.js": "^1.16.1",
     "pug": "^3.0.0",
     "rfs": "^9.0.3",

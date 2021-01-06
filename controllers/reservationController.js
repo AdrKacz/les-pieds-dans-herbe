@@ -107,9 +107,9 @@ exports.get_reservations = function(req, res, next) {
   async.parallel({
     airbnb: function(callback) {
       // Retrieve AirBnb with URL (secret in development and env variable in production)
-      // var passwords = require('../secrets/passwords'); // [DEV] Use only in development
-      // var airbnbURL = passwords.airbnb; // [DEV] Use only in development
-      var airbnbURL = process.env.AIRBNB_URI; // [PROD] Use only in production
+      var passwords = require('../secrets/passwords'); // [DEV] Use only in development
+      var airbnbURL = passwords.airbnb; // [DEV] Use only in development
+      // var airbnbURL = process.env.AIRBNB_URI; // [PROD] Use only in production
       fetch(airbnbURL)
         .then(response => response.text())
         .then(text => {

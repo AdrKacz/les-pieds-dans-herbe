@@ -20,10 +20,10 @@ const mongoose = require('mongoose');
 var app = express();
 
 // Set up default mongoose connection
-// const passwords = require('./secrets/passwords'); // [DEV] Use only in development
-// const mongoDB = passwords.mongo; // [DEV] Use only in development
+const passwords = require('./secrets/passwords'); // [DEV] Use only in development
+const mongoDB = passwords.mongo; // [DEV] Use only in development
 
-var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
+// var mongoDB = process.env.MONGODB_URI; // [PROD] Use only in production
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -43,26 +43,26 @@ app.set('view engine', 'pug');
 
 
 // [PROD] Use only in production, problem with static files else
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "connect-src": ["'self'", "https://api.stripe.com"],
-      "frame-src": ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
-      "script-src": ["'self'", "https://js.stripe.com"],
-    },
-  })
-);
-app.use(helmet.dnsPrefetchControl());
-app.use(helmet.expectCt());
-app.use(helmet.frameguard());
-app.use(helmet.hidePoweredBy());
-app.use(helmet.hsts());
-app.use(helmet.ieNoOpen());
-app.use(helmet.noSniff());
-app.use(helmet.permittedCrossDomainPolicies());
-app.use(helmet.referrerPolicy());
-app.use(helmet.xssFilter());
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+//       "connect-src": ["'self'", "https://api.stripe.com"],
+//       "frame-src": ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
+//       "script-src": ["'self'", "https://js.stripe.com"],
+//     },
+//   })
+// );
+// app.use(helmet.dnsPrefetchControl());
+// app.use(helmet.expectCt());
+// app.use(helmet.frameguard());
+// app.use(helmet.hidePoweredBy());
+// app.use(helmet.hsts());
+// app.use(helmet.ieNoOpen());
+// app.use(helmet.noSniff());
+// app.use(helmet.permittedCrossDomainPolicies());
+// app.use(helmet.referrerPolicy());
+// app.use(helmet.xssFilter());
 // -----
 
 // app.use(logger('dev'));

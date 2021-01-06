@@ -36,6 +36,7 @@ var ReservationSchema = new Schema(
 
     is_validated: {type: Boolean, required: true, default: false}, // true if payed
     validated: {type: Date}, // Date of payment
+    amount_paid: {type: Number, min: 0, default: 0}, // Amont paid for the reservation
   },
   {
     timestamps: {

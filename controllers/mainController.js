@@ -3,6 +3,29 @@ var Reservation = require('../models/reservation');
 // Require to validate form
 const {body, validationResult} = require('express-validator');
 
+// To send mail when reservation succeeded
+const nodemailer = require('nodemailer');
+// Transporter used to send mail
+const transporter = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "d3c6f745cc1431",
+    pass: "8d25a942538fef"
+  }
+});
+// Verify if the transporter is correctly et up
+transporter.verify(function(err, success) {
+  if (err) {
+    console.log(error);
+  } else {
+    console.log("Server is ready to take our messages");
+  }
+});
+
+// options for email date formatting
+const optionsEmailDateFormatting = {year: 'numeric', month: 'long', day: 'numeric' };
+
 
 // Display HOME page
 exports.home = function(req, res, next) {
@@ -159,6 +182,13 @@ exports.book_post = [
       pack: pack,
     };
 
+    const message = { // Message send to warn the customer it has made an attempt to book
+      from: 'Gite Les Pied Dans l\'Herbe <gitelespieddanslherbe@nodemailer.com>',
+      to: `${objectReservation.email}`,
+      subject: 'You started to book',
+      text: `You've started to book a trip from ${(new Date(objectReservation.date_of_arrival)).toLocaleDateString(undefined, optionsEmailDateFormatting)} to ${(new Date(objectReservation.date_of_departure)).toLocaleDateString(undefined, optionsEmailDateFormatting)}`
+    };
+
     // Check if the session already has a token
     let token = req.session.token;
     // If not, create one
@@ -173,7 +203,14 @@ exports.book_post = [
         if (err) {return next(err);};
         // Successul
         console.log('[BOOK] Creation Successful - ' + token);
-        res.redirect('/pay');
+        // Send mail and redirect on callback
+        transporter.sendMail(message, function(err, _) {
+          if (err) {
+            console.error('[ERROR] Did not successfully send mail to customer ' + token);
+          };
+          // Redirect anyway
+          res.redirect('/pay');
+        });
       });
 
     } else {
@@ -186,7 +223,14 @@ exports.book_post = [
         if (err) {return next(err);};
         // Successful - redirect to book page
         console.log('[BOOK] Update Successful - ' + token);
-        res.redirect('/pay');
+        // Send mail and redirect on callback
+        transporter.sendMail(message, function(err, _) {
+          if (err) {
+            console.error('[ERROR] Did not successfully send mail to customer ' + token);
+          };
+          // Redirect anyway
+          res.redirect('/pay');
+        });
       });
     };
   },
