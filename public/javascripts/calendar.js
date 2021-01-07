@@ -152,8 +152,24 @@ nextBtn.addEventListener('click', _ => {
 
 // Event listener for date item
 function dateClickedOn(e) {
-  const classes = [LAYOUT, DATE_ITEM, CLICKED]
+  const e_classes = e.target.getAttribute('class').split(' ');
   const selectedDate = new Date(CURRENT_YEAR, CURRENT_MONTH, parseInt(e.target.textContent));
+
+  // if click on already selected date, unselect it
+  if (e_classes.includes(CLICKED, 3)) {
+    const classes = [LAYOUT, DATE_ITEM, CLICKABLE];
+    e.target.setAttribute('class', classes.join(' '));
+
+    if (firstSelectedDate && isSameDate(firstSelectedDate, selectedDate)) {
+      firstSelectedDate = null;
+    } else {
+      // if not is the secondSelectedDate
+      secondSelectedDate = null;
+    };
+    return;
+  };
+
+  const classes = [LAYOUT, DATE_ITEM, CLICKABLE, CLICKED];
   if (!firstSelectedDate) {
     firstSelectedDate = selectedDate;
     e.target.setAttribute('class', classes.join(' '));
@@ -206,12 +222,14 @@ function updateCalendar(JSONReservations) {
         if (currentDate > NOW) {
           if (isSameDate(firstSelectedDate, currentDate) || isSameDate(secondSelectedDate, currentDate)) {
             classes.push(CLICKED);
-          } else if (!isInRange(currentDate, JSONReservations)) {
+          };
+          if (!isInRange(currentDate, JSONReservations)) {
             classes.push(CLICKABLE);
             // Assign click listener
             dayItem.addEventListener('click', dateClickedOn);
-          }
+          };
         };
+        console.log('>' + currentDate + ' - ' + classes);
         dayItem.setAttribute('class', classes.join(' '));
         dayItem.textContent = currentDate.getDate();
         row.appendChild(dayItem);

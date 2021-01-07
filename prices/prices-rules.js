@@ -51,3 +51,12 @@ exports.month = {0: '-5'};
 exports.day = {};
 
 exports.date = {};
+
+// For pack prices
+
+exports.packs = {
+  'none': 0,
+  'family': 30,
+  'trip': 45,
+  'all': 80
+}

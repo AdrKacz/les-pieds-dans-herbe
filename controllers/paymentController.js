@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: passwords.user_mailtrap,
-    pass: passwords.pass_mailtrap
+    user: passwords.user_mailtrap, // [DEV] Use only in development
+    pass: passwords.pass_mailtrap // [DEV] Use only in development
   }
 });
 // Verify if the transporter is correctly et up
@@ -53,6 +53,12 @@ function calculateReservationAmount(reservation) {
   const currentDate = new Date(reservation.date_of_arrival);
 
   let amount = 0;
+
+  // Add the price for the pack
+  if (prices.packs[reservation.pack]) {
+    amount += prices.packs[reservation.pack];
+  };
+
   while (currentDate < departureDate) {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
