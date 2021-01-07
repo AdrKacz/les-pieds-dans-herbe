@@ -55,7 +55,16 @@ exports.details_post = [
     if (!errors.isEmpty()) {
       // There are errors.
       // Need to render the form again, here simply send user to an error page
-      return res.status(400).json({errors: errors.array() });
+      // return res.status(400).json({errors: errors.array() });
+      res.redirect('/details');
+    };
+
+    // Return if the reservation is too short
+    const dateOfArrival = new Date(req.body['date-arrival']);
+    const dateOfDeparture = new Date(req.body['date-departure']);
+    if (dateOfDeparture - dateOfArrival < 172800000) { // two days is 24*3600*1000 = 172800000 milliseconds
+      console.error(`The reservation was too short: ${dateOfArrival} to ${dateOfDeparture}`);
+      return res.redirect('/details');
     };
 
     // Assign pack value
@@ -152,7 +161,16 @@ exports.book_post = [
     if (!errors.isEmpty()) {
       // There are errors.
       // Need to render the form again, here simply send user to an error page
-      return res.status(400).json({errors: errors.array() });
+      // return res.status(400).json({errors: errors.array() });
+      return res.redirect('/book');
+    };
+
+    // Return if the reservation is too short
+    const dateOfArrival = new Date(req.body['date-arrival']);
+    const dateOfDeparture = new Date(req.body['date-departure']);
+    if (dateOfDeparture - dateOfArrival > 172800000) { // two days is 24*3600*1000 = 172800000 milliseconds
+      console.error(`The reservation was too short: ${dateOfArrival} to ${dateOfDeparture}`);
+      return res.redirect('/book');
     };
 
     // Assign pack value
