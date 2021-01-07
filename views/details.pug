@@ -31,7 +31,7 @@ block content
           button.btn.btn-primary#calendar-save-btn(type='button') Sauvegarder
     
   
-  div.carousel.slide.h-100.mb-5#carousel-details(data-ride='carousel')
+  div.carousel.slide.h-100.mb-5#carousel-details(data-bs-ride='carousel-details')
     ol.carousel-indicators
       li.active(data-target='#carousel-details', data-slide-to='0')
       li(data-target='#carousel-details', data-slide-to='1')
@@ -50,8 +50,8 @@ block content
       span.carousel-control-prev-icon(aria-hidden='true')
       span.sr-only Previous
     a.carousel-control-next(href='#carousel-details', role='buttons', data-slide='next')
-        span.carousel-control-next-icon(aria-hidden='true')
-        span.sr-only Next    
+      span.carousel-control-next-icon(aria-hidden='true')
+      span.sr-only Next    
   
   form.needs-validation(method='POST', action='')
     div.container.alert.alert-warning.d-none.mb-3#form-error(role='alert') Certains champs ne sont pas valides.

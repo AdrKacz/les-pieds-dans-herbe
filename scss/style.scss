@@ -5,12 +5,19 @@
 
 // Home Page
 
-#img-col {
-  img {
-    height: 50vh;
-    object-fit: contain;
-  }
+#carousel-home img {
+  width: 100%;
+  height: 100%;
+  height: 80vh;
+  object-fit: cover;
 }
+
+// #img-col {
+//   img {
+//     height: 50vh;
+//     object-fit: contain;
+//   }
+// }
 
 // Carousel Details Page
 
