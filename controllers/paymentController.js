@@ -1,5 +1,6 @@
 const Reservation = require('../models/reservation');
 const async = require('async');
+const passwords = require('../secrets/passwords'); // [DEV] Use only in development
 
 // To send mail when reservation succeeded
 const nodemailer = require('nodemailer');
@@ -8,8 +9,8 @@ const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: "d3c6f745cc1431",
-    pass: "8d25a942538fef"
+    user: passwords.user_mailtrap,
+    pass: passwords.pass_mailtrap
   }
 });
 // Verify if the transporter is correctly et up
@@ -25,7 +26,6 @@ transporter.verify(function(err, success) {
 const optionsEmailDateFormatting = {year: 'numeric', month: 'long', day: 'numeric' };
 
 // Import Strip to handle payment
-const passwords = require('../secrets/passwords'); // [DEV] Use only in development
 const stripe = require('stripe')(passwords.stripe); // [DEV] only
 
 // ----- During Phase test, use these card
